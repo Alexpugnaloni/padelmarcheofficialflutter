@@ -1,19 +1,128 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:collection';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:padelmarcheofficialflutter/Login.dart';
+import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+//import 'package:intl/intl.dart';
+import 'dart:ui' as ui;
+
+import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
 
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  //await Firebase.initializeApp();
+
+  GestioneFirebase gestioneFirebase = GestioneFirebase();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Set default home.
+  Widget _defaultHome = new MyLoginPage();
+
+  /// se non c'è un account in memoria si va alla pagina di login
+  if (gestioneFirebase.checkState()) {
+    // FirebaseAuth.instance.currentUser!=null) {
+    _defaultHome = HomePage(); //new MyApp();
+  }
+  runApp(new MaterialApp(
+    // theme: CustomTheme.lightTheme,
+    // darkTheme: CustomTheme.darkTheme,
+    title: 'PadelMarche',
+    home: _defaultHome,
+
+    /// si definiscono le rotta utili alla navigazione
+    routes: <String, WidgetBuilder>{
+
+      '/home': (BuildContext context) => new HomePage(),
+      MyLoginPage.routeName: (BuildContext context) => new MyLoginPage(),
+      //    ViewProfile.routeName: (context) => ViewProfile(),  COMMENTATO IO
+      //   Comments.routeName: (context) => Comments()  COMMENTATIO IO
+    },
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class HomePage extends StatefulWidget {
+  @override
+  _HomePage createState() => _HomePage();
+}
+
+
+class _HomePage extends State<HomePage> {
+  final GestioneFirebase gestioneFirebase = GestioneFirebase();
+  bool showProgress = false;
+  late String email, password;
+
+  //String annoCorrente = "";
+  // List anni = List.generate(0, (index) => null);  COMMENTATO IO
+  // List posts = List.generate(0, (index) => null);  COMMENTATO IO
+
+  late HashMap account = HashMap();
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  ///inizializzazione
+  ///si recuperano le informazioni dell'account loggato
+  ///si recuperano le classi associate al corso di laurea dell'account loggato
+  ///si recuperano i post della classe dell'account loggato
+  void init() async { /*
+    await gestioneFirebase.leggiInfo().then((acc) {
+      setState(() {
+        account = acc;
+        annoCorrente = account['idClasse'];
+      });
+    });
+    await gestioneFirebase.downloadAnni(account['idCorso']).then((ann) {
+      setState(() {
+        anni = ann;
+      });
+    });
+    await gestioneFirebase
+        .leggiPosts(account['idCorso'], account['idClasse'])
+        .then((ris) {
+      setState(() {
+        posts = ris;
+      });
+    }); */
+  }
+
+  ///funzione che viene richiamata quando devo visualizzare il profilo alla quale si passa l'hashMap identificativa dell'account
+  void _lauchUserProfile() {
+    Navigator.pushNamed(
+      context,
+      ViewProfile.routeName,
+      arguments: MyProfile(account),
+    );
+  }
+
+  ///funzione utile alla cancellazione delle informazioni salvate in locale riguardo l'account
+  ///ed utile per tornare alla pagina di login
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushAndRemoveUntil(
+      // the new route
+      MaterialPageRoute(
+        builder: (BuildContext context) => MyLoginPage(),
+      ),
+      ModalRoute.withName('/home'),
+    );
+  }
 
   // This widget is the root of your application.
   @override
