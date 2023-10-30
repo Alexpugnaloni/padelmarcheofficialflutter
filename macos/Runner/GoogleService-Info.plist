@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDDyfpyg7HowvGJDOj5KBM84ftiCwUB3Rc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>571728975971</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.padelmarcheofficialflutter.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>padelmarcheofficialflutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>padelmarcheofficialflutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:571728975971:ios:8d117efb0fc53916d7c056</string>
+</dict>
+</plist>

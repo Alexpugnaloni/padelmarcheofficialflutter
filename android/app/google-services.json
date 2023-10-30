@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "571728975971",
+    "project_id": "padelmarcheofficialflutter",
+    "storage_bucket": "padelmarcheofficialflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571728975971:android:9ad63236c59a07c0d7c056",
+        "android_client_info": {
+          "package_name": "com.example.padelmarcheofficialflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU3tM4UHzlKk3-cJjE2FDaNC2pyR5y3hI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
