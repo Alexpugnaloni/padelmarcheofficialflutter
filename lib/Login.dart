@@ -25,7 +25,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
       body: Column(
         children: <Widget>[
           Container(
-            height: 200, // Altezza dell'AppBar
+            height: 130, // Altezza dell'AppBar
             color: Color(0xFF0000FF), // Colore di sfondo
             child: AppBar(
               toolbarHeight: 0, // Nasconde la barra degli strumenti
@@ -36,7 +36,20 @@ class _MyLoginPageState extends State<MyLoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset('assets/padelmarcheblu.png', width: 416, height: 777), // Sostituisci con l'immagine desiderata
+              /*    Container(
+                    margin: EdgeInsets.only(top: 10), // Aggiungi il margine superiore desiderato
+                    child: Image.asset('assets/padelmarcheblu.png', width: 416, height: 777),
+                  ), */
+                  Container(
+                    width: 350, // Larghezza del contenitore quadrato
+                    height: 350, // Altezza del contenitore quadrato
+                    child: FittedBox(
+                      fit: BoxFit.contain, // Puoi regolare il fit a tuo piacimento
+                      child: Image.asset('assets/padelmarcheblu.png', width: 416, height: 777),
+                    ),
+                  ),
+
+                  // Sostituisci con l'immagine desiderata
                   SizedBox(height: 26),
                   Container(
                     padding: EdgeInsets.only(left: 40.0,right: 40.0),
