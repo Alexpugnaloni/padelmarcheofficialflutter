@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui' as ui;
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 
 class PrenotaUnaPartita extends StatefulWidget {
   static const routeName = '/prenotaunapartita';
@@ -92,6 +93,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     onPressed: () {
                       // Azione per il primo bottone
                     },
+                    style: ButtonStyle(
+                      backgroundColor: getColor(Colors.blue, Colors.red),
+
+                    ),
                     child: Text('Ora dalle 9:00 alle 10:00'),
                   ),
                 ),
@@ -105,6 +110,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     onPressed: () {
                       // Azione per il primo bottone
                     },
+                    style: ButtonStyle(
+                      backgroundColor: getColor(Colors.blue, Colors.red),
+
+                    ),
                     child: Text('Ora dalle 10:00 alle 11:00'),
                   ),
                 ),
@@ -118,6 +127,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     onPressed: () {
                       // Azione per il primo bottone
                     },
+                    style: ButtonStyle(
+                      backgroundColor: getColor(Colors.blue, Colors.red),
+
+                    ),
                     child: Text('Ora dalle 11:00 alle 12:00'),
                   ),
                 ),
@@ -131,6 +144,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     onPressed: () {
                       // Azione per il primo bottone
                     },
+                    style: ButtonStyle(
+                      backgroundColor: getColor(Colors.blue, Colors.red),
+
+                    ),
                     child: Text('Ora dalle 15:00 alle 16:00'),
                   ),
                 ),
@@ -144,6 +161,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     onPressed: () {
                       // Azione per il primo bottone
                     },
+                    style: ButtonStyle(
+                      backgroundColor: getColor(Colors.blue, Colors.red),
+
+                    ),
                     child: Text('Ora dalle 16:00 alle 17:00'),
                   ),
                 ),
@@ -157,6 +178,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     onPressed: () {
                       // Azione per il primo bottone
                     },
+                    style: ButtonStyle(
+                      backgroundColor: getColor(Colors.blue, Colors.red),
+
+                    ),
                     child: Text('Ora dalle 17:00 alle 18:00'),
                   ),
                 ),
@@ -176,7 +201,16 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
       ),
     );
   }
+
 }
 
+MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
+  return MaterialStateProperty.resolveWith((states) {
+    if (states.contains(MaterialState.pressed)) {
+      return colorPressed;
+    }
+    return color;
+  });
+}
 
 
