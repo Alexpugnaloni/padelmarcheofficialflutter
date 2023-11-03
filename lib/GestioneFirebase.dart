@@ -1,13 +1,9 @@
-import 'dart:async';
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:toast/toast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class GestioneFirebase {
   /// Riferimento per *Firestore*
@@ -24,8 +20,9 @@ class GestioneFirebase {
   }
 
   bool checkState() {
-    if (auth.currentUser == null)
+    if (auth.currentUser == null) {
       return false;
+    }
     return true;
   }
 

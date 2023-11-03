@@ -1,6 +1,5 @@
-import 'dart:collection';
+ import 'dart:collection';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyProfile{
@@ -12,29 +11,31 @@ class MyProfile{
 class ViewProfile extends StatelessWidget{
   static const routeName = '/viewProfile';
 
+  const ViewProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as MyProfile;
     print(args);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Visualizza profilo"),
+        title: const Text("Visualizza profilo"),
       ),
       body: ListView(
         children:<Widget>[
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Container(
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: new Border.all(
+              border: Border.all(
                 color: Theme.of(context).primaryColor,
                 width: 3.0,
               ),
             ),
             child: Container(
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: new Border.all(
+                border: Border.all(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   width: 3.0,
                 ),
@@ -46,18 +47,18 @@ class ViewProfile extends StatelessWidget{
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           visualizzaCampo("Nome", args.account['nome'],context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           visualizzaCampo("Cognome", args.account['cognome'],context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           visualizzaCampo("Email", args.account['email'],context),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           visualizzaCampo("Data di nascita", args.account['dataDiNascita'],context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           visualizzaCampo("Cellulare", args.account['cellulare'],context),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           visualizzaCampo("Sesso", args.account['sesso'],context),
 
         ],
@@ -68,13 +69,13 @@ class ViewProfile extends StatelessWidget{
   ///widget univoco, utilizzato per la visualizzazione di un'informazione dell'utente loggato
   Widget visualizzaCampo(String campo, String valore, context){
     return Container(
-      padding: EdgeInsets.only(left: 40.0,right: 40.0),
+      padding: const EdgeInsets.only(left: 40.0,right: 40.0),
       color: Theme.of(context).cardColor,
       child: Column(
           children:<Widget>[
-            Align(child: Text(campo, style: TextStyle(color:Theme.of(context).primaryColor, fontSize: 15) ), alignment: Alignment.centerLeft,),
-            SizedBox(height:5),
-            Align(child: Text(valore,style: TextStyle(fontSize: 18),),alignment: Alignment.centerLeft,),
+            Align(alignment: Alignment.centerLeft,child: Text(campo, style: TextStyle(color:Theme.of(context).primaryColor, fontSize: 15) ),),
+            const SizedBox(height:5),
+            Align(alignment: Alignment.centerLeft,child: Text(valore,style: const TextStyle(fontSize: 18),),),
             Divider(color:Theme.of(context).primaryColor,height: 5,thickness: 2)
           ] //
       ),

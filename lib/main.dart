@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'dart:async';
 import 'dart:collection';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:padelmarcheofficialflutter/Login.dart';
 import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 //import 'package:intl/intl.dart';
-import 'dart:ui' as ui;
 
 import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
 
@@ -30,24 +23,24 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set default home.
-  Widget _defaultHome = new MyLoginPage();
+  Widget defaultHome = const MyLoginPage();
 
   /// se non c'è un account in memoria si va alla pagina di login
   if (gestioneFirebase.checkState()) {
     // FirebaseAuth.instance.currentUser!=null) {
-    _defaultHome = HomePage(); //new MyApp();
+    defaultHome = const HomePage(); //new MyApp();
   }
-  runApp(new MaterialApp(
+  runApp(MaterialApp(
     // theme: CustomTheme.lightTheme,
     // darkTheme: CustomTheme.darkTheme,
     title: 'PadelMarche',
-    home: _defaultHome,
+    home: defaultHome,
 
     /// si definiscono le rotta utili alla navigazione
     routes: <String, WidgetBuilder>{
 
-      '/home': (BuildContext context) => new HomePage(),
-      MyLoginPage.routeName: (BuildContext context) => new MyLoginPage(),
+      '/home': (BuildContext context) => const HomePage(),
+      MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
       //    ViewProfile.routeName: (context) => ViewProfile(),  COMMENTATO IO
       //   Comments.routeName: (context) => Comments()  COMMENTATIO IO
     },
@@ -55,6 +48,8 @@ void main() async {
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePage createState() => _HomePage();
 }
@@ -118,7 +113,7 @@ class _HomePage extends State<HomePage> {
     Navigator.of(context).pushAndRemoveUntil(
       // the new route
       MaterialPageRoute(
-        builder: (BuildContext context) => MyLoginPage(),
+        builder: (BuildContext context) => const MyLoginPage(),
       ),
       ModalRoute.withName('/home'),
     );

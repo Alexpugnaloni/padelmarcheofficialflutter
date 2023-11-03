@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:padelmarcheofficialflutter/main.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class MyLoginPage extends StatefulWidget {
   static const routeName = '/login';
+
+  const MyLoginPage({super.key});
   @override
   _MyLoginPageState createState() => _MyLoginPageState();
 }
@@ -26,7 +27,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
         children: <Widget>[
           Container(
             height: 130, // Altezza dell'AppBar
-            color: Color(0xFF0000FF), // Colore di sfondo
+            color: const Color(0xFF0000FF), // Colore di sfondo
             child: AppBar(
               toolbarHeight: 0, // Nasconde la barra degli strumenti
             ),
@@ -40,7 +41,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     margin: EdgeInsets.only(top: 10), // Aggiungi il margine superiore desiderato
                     child: Image.asset('assets/padelmarcheblu.png', width: 416, height: 777),
                   ), */
-                  Container(
+                  SizedBox(
                     width: 350, // Larghezza del contenitore quadrato
                     height: 350, // Altezza del contenitore quadrato
                     child: FittedBox(
@@ -50,9 +51,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   ),
 
                   // Sostituisci con l'immagine desiderata
-                  SizedBox(height: 26),
+                  const SizedBox(height: 26),
                   Container(
-                    padding: EdgeInsets.only(left: 40.0,right: 40.0),
+                    padding: const EdgeInsets.only(left: 40.0,right: 40.0),
                     child: TextFormField(
                       //          cursorColor: Theme.of(context).cursorColor,  CAMBIATA IO
                       keyboardType: TextInputType.emailAddress,
@@ -60,24 +61,22 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       onChanged: (value) {
                         email = value; // get value from TextField
                         setState(() {
-                          emailcorretta = email.isEmpty ||
-                              (email.startsWith('s') || email.startsWith('S')) &&
-                                  email.endsWith('@studenti.univpm.it');
+                        //  emailcorretta = email.isEmpty ;
                         });
                       },
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        errorText: emailcorretta ? null : 'Email non valida',
-                        border: OutlineInputBorder(),
-                        suffixIcon: emailcorretta ? null : Icon(Icons.error),
+                     //   errorText: emailcorretta ? null : 'Email non valida',
+                     //   border: const OutlineInputBorder(),
+                     //   suffixIcon: emailcorretta ? null : const Icon(Icons.error),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 40.0,right: 40.0),
+                    padding: const EdgeInsets.only(left: 40.0,right: 40.0),
                     child: TextFormField(
                       obscureText: nascondipassword? true:false,
                       keyboardType: TextInputType.visiblePassword,
@@ -88,16 +87,16 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       },
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         suffixIcon:nascondipassword? IconButton(
-                            icon: Icon(Icons.visibility,),
+                            icon: const Icon(Icons.visibility,),
                             onPressed:(){
                               setState(() {
                                 nascondipassword=!nascondipassword;
                               });
                             }
                         ):IconButton(
-                            icon:Icon(Icons.visibility_off),
+                            icon:const Icon(Icons.visibility_off),
                             onPressed: (){
                               setState(() {
                                 nascondipassword=!nascondipassword;
@@ -107,7 +106,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Material(
@@ -124,24 +123,22 @@ class _MyLoginPageState extends State<MyLoginPage> {
                               final newUser = await _auth.signInWithEmailAndPassword(
                                   email: email, password: password);
                               print(newUser.toString());
-                              if (newUser != null) {
-                                ///check se un account è verificato
-                                if (newUser.user!.emailVerified) {
-                                  setState(() {
-                                    showProgress = false;
-                                  });
+                              ///check se un account è verificato
+                          /*    if (newUser.user!.emailVerified) {
+                                setState(() {
+                                  showProgress = false;
+                                }); */
 
-                                  ///navigazione verso la homepage
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return HomePage();//MyApp();
-                                    }),
-                                  );
-                                  //Navigator.of(context).pushNamed("/home");
-                                }
-                              }
-                            } catch (e) {
+                                ///navigazione verso la homepage
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return const HomePage();//MyApp();
+                                  }),
+                                );
+                                Navigator.of(context).pushNamed("/home");
+                           //   }
+                                                        } catch (e) {
                               Fluttertoast.showToast(
                                   msg: "Credenziali errate o email non verificata",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -157,7 +154,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           },
                           minWidth: 200.0,
                           height: 45.0,
-                          child: Text(
+                          child: const Text(
                             "ACCEDI",
                             style:TextStyle(fontWeight: FontWeight.w500,color: Colors.white, fontSize: 20.0),
                           )
