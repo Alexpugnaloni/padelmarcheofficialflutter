@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:intl/intl.dart';
 
 import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
+import 'package:padelmarcheofficialflutter/PrenotaUnaPartita.dart';
 
 import 'firebase_options.dart';
 
@@ -42,7 +43,7 @@ void main() async {
       '/home': (BuildContext context) => const HomePage(),
       MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
       ViewProfile.routeName: (context) => ViewProfile(),
-      //   Comments.routeName: (context) => Comments()  COMMENTATIO IO
+      PrenotaUnaPartita.routeName: (context) => PrenotaUnaPartita()
     },
   ));
 }
@@ -107,6 +108,12 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+  void _lauchPrenotaUnaPartita(){
+    Navigator.pushNamed(context,
+      PrenotaUnaPartita.routeName);
+    //FORSE PASSARE ANCHE L'ACCOUNT IN FUTURO
+  }
+
   ///funzione utile alla cancellazione delle informazioni salvate in locale riguardo l'account
   ///ed utile per tornare alla pagina di login
   void logout() async {
@@ -146,8 +153,42 @@ class _HomePage extends State<HomePage> {
       backgroundColor: Colors.blue,
     ),
     body: Center(
-      child: Text('Contenuto principale qui'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              _lauchPrenotaUnaPartita();
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.zero,
+            ),
+            child: Ink.image(
+              image: AssetImage('assets/prenotaunapartitabutton.png'),
+              width: 320,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Gestisci l'azione quando il secondo pulsante viene premuto
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.zero,
+            ),
+            child: Ink.image(
+              image: AssetImage('assets/uniscitir2.png'), // Cambia il percorso dell'immagine se necessario
+              width: 320,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
+      ),
     ),
+
     bottomNavigationBar: BottomNavigationBar(
       currentIndex: _currentIndex,
       onTap: _onTabTapped,
