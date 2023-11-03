@@ -42,7 +42,7 @@ class ViewProfile extends StatelessWidget{
               ),
               child:Center(
                 child:ClipOval(
-                  child: Image.network(args.account['img'],width: 120.0,height: 120.0,fit: BoxFit.fill,),
+                  child: Image.asset('assets/padelmarcheblu.png',width: 120.0,height: 120.0,fit: BoxFit.fill,),
                 ),
               ),
             ),

@@ -34,16 +34,18 @@ class GestioneFirebase {
   /// Funzione per recuperare le informazioni di un account
   leggiInfo() async {
     var id = auth.currentUser!.uid;
+    var email = auth.currentUser!.email;
     var acc = HashMap();
     var risultato = await firestore.collection('Accounts')
         .doc(id)
         .get(); //.then((risultato) async {
     acc['id'] = id;
+    acc['email'] = email;
     acc['cellulare'] = risultato.data()!['cellulare'].toString();
     acc['cognome'] = risultato.data()!['cognome'].toString();
     acc['dataDiNascita'] = risultato.data()!['dataDiNascita'].toString();
     acc['nome'] = risultato.data()!['nome'].toString();
-    acc['sesso'] = risultato.data()!['nome'].toString();
+    acc['sesso'] = risultato.data()!['sesso'].toString();
 
     return acc;
   }
