@@ -44,14 +44,7 @@ class GestioneFirebase {
     acc['dataDiNascita'] = risultato.data()!['dataDiNascita'].toString();
     acc['nome'] = risultato.data()!['nome'].toString();
     acc['sesso'] = risultato.data()!['nome'].toString();
-    try {
-      acc['img'] =
-      await storage.ref().child("Foto profilo/" + acc['id']).getDownloadURL();
-    }
-    catch (e) {
-      acc['img'] =
-      await storage.ref().child("Foto profilo/0.png").getDownloadURL();
-    }
+
     return acc;
   }
 

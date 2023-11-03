@@ -41,7 +41,7 @@ void main() async {
 
       '/home': (BuildContext context) => const HomePage(),
       MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
-      //    ViewProfile.routeName: (context) => ViewProfile(),  COMMENTATO IO
+      ViewProfile.routeName: (context) => ViewProfile(),
       //   Comments.routeName: (context) => Comments()  COMMENTATIO IO
     },
   ));
@@ -77,14 +77,14 @@ class _HomePage extends State<HomePage> {
   ///si recuperano le informazioni dell'account loggato
   ///si recuperano le classi associate al corso di laurea dell'account loggato
   ///si recuperano i post della classe dell'account loggato
-  void init() async { /*
+  void init() async {
     await gestioneFirebase.leggiInfo().then((acc) {
       setState(() {
         account = acc;
-        annoCorrente = account['idClasse'];
+
       });
     });
-    await gestioneFirebase.downloadAnni(account['idCorso']).then((ann) {
+   /* await gestioneFirebase.downloadAnni(account['idCorso']).then((ann) {
       setState(() {
         anni = ann;
       });
@@ -124,7 +124,10 @@ class _HomePage extends State<HomePage> {
     setState(() {
       _currentIndex = index;
       print(_currentIndex);
-      if(_currentIndex == 2){
+      if(_currentIndex == 0){
+        _lauchUserProfile();
+      }
+      else if(_currentIndex == 2){
         logout();
       }
     });
