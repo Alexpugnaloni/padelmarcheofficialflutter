@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -60,7 +61,7 @@ class GestioneFirebase {
       centriPadel[doc['sede'].toString()] = CentroSportivo(
         id: doc.id,
         nome: doc['sede'].toString(),
-        indirizzo: doc['indirizzo'].toString(),
+        indirizzo: doc['via'].toString(),
         civico: doc['civico'].toString(),
       );
     }
@@ -108,6 +109,29 @@ class GestioneFirebase {
         .doc(idCentroSportivo)
         .collection('Prenotazioni')
         .add(prenotazione);
+  }
+
+  Future<bool> cercaPrenotazioniFirebase(String selectedSede, DateTime selectedDate, String oraDaControllare) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Formattiamo la data selezionata nel formato "yyyy-MM-dd"
+    String formattedDate = "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+
+    try {
+      QuerySnapshot prenotazioniSnapshot = await firestore
+          .collection("Centrisportivi")
+          .doc(selectedSede)
+          .collection("Prenotazioni")
+          .where("data", isGreaterThanOrEqualTo: selectedDate, isLessThan: selectedDate.add(Duration(hours: 1))) // Filtra per la data e l'ora specifiche
+          .get();
+
+      return prenotazioniSnapshot.size > 0;
+
+
+    } catch (e) {
+      print("Errore nella ricerca delle prenotazioni: $e");
+      return false;
+    }
   }
 
 

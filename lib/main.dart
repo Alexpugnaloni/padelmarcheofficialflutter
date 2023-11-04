@@ -42,8 +42,8 @@ void main() async {
 
       '/home': (BuildContext context) => const HomePage(),
       MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
-      ViewProfile.routeName: (context) => ViewProfile(),
-      PrenotaUnaPartita.routeName: (context) => PrenotaUnaPartita()
+      ViewProfile.routeName: (context) => const ViewProfile(),
+      PrenotaUnaPartita.routeName: (context) => const PrenotaUnaPartita()
     },
   ));
 }
@@ -146,7 +146,7 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {return Scaffold(
     appBar: AppBar(
-      title: Text('PadelMarche',
+      title: const Text('PadelMarche',
           style: TextStyle(color: Colors.white,
       )),
 
@@ -164,13 +164,13 @@ class _HomePage extends State<HomePage> {
               padding: EdgeInsets.zero,
             ),
             child: Ink.image(
-              image: AssetImage('assets/prenotaunapartitabutton.png'),
+              image: const AssetImage('assets/prenotaunapartitabutton.png'),
               width: 320,
               height: 200,
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               // Gestisci l'azione quando il secondo pulsante viene premuto
@@ -179,7 +179,7 @@ class _HomePage extends State<HomePage> {
               padding: EdgeInsets.zero,
             ),
             child: Ink.image(
-              image: AssetImage('assets/uniscitir2.png'), // Cambia il percorso dell'immagine se necessario
+              image: const AssetImage('assets/uniscitir2.png'), // Cambia il percorso dell'immagine se necessario
               width: 320,
               height: 200,
               fit: BoxFit.cover,
@@ -192,7 +192,7 @@ class _HomePage extends State<HomePage> {
     bottomNavigationBar: BottomNavigationBar(
       currentIndex: _currentIndex,
       onTap: _onTabTapped,
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profilo',

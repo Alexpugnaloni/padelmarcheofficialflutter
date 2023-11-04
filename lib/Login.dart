@@ -64,7 +64,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         //  emailcorretta = email.isEmpty ;
                         });
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Email',
                      //   errorText: emailcorretta ? null : 'Email non valida',
                      //   border: const OutlineInputBorder(),
