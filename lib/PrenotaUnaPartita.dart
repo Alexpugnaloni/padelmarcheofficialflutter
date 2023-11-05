@@ -1,16 +1,11 @@
-import 'dart:collection';
 import 'dart:core';
 import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:flutter/material.dart';
-import 'package:padelmarcheofficialflutter/Login.dart';
-import 'package:padelmarcheofficialflutter/main.dart';
-
 import 'CentroSportivo.dart';
 
 class PrenotaUnaPartita extends StatefulWidget {
   static const routeName = '/prenotaunapartita';
   static final gestionefirebase = GestioneFirebase();
-
   const PrenotaUnaPartita({super.key});
 
   @override
@@ -34,9 +29,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
         List<String> temp = [];
         for( var sede in sediList.keys){
           temp.add(sede);
-
         }
-
         sedi = temp;
       });
     });
@@ -44,19 +37,18 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
 
   @override
   Widget build(BuildContext context) {
+    ///funzione che carica la prenotazione al click della fascia oraria
     void onButtonClicked(String ora) async {
       if (selectedSede != null) {
-        // Chiama la funzione per cercare le prenotazioni in Firestore
         List<String> parti = ora.split(":");
         DateTime selected = selectedDate;
         selected = selected.add(Duration(hours: int.tryParse(parti[0])!));
+        ///i parametri popolati precedentemente, li passa a cercaprenotazionifirebase
         final bool fasciaOccupata = await GestioneFirebase()
             .cercaPrenotazioniFirebase(mappacentri[selectedSede]!.id, selected, ora);
-
+        ///se la sede selezionata, la data e la fascia oraria sono disponibili,
+        ///effettua l'upload della prenotazione
         if (!fasciaOccupata) {
-          // L'orario è disponibile, puoi confermare la prenotazione
-
-
           GestioneFirebase().uploadPrenotazione(mappacentri[selectedSede]!.id, selected);
           showDialog(
             context: context,
@@ -76,8 +68,8 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
               );
             },
           );
+          ///se l'orario non è disponibile lancia questo dialog
         } else {
-          // L'orario non è disponibile
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -147,7 +139,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
             Center(
               child: Text(
                 'Verifica e Conferma una prenotazione cliccando sulla fascia oraria desiderata:',
-                textAlign: TextAlign.center, // Imposta l'allineamento del testo a "center"
+                textAlign: TextAlign.center,
               ),
             ),
 
@@ -155,13 +147,12 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
             Column(
               children: [
                 SizedBox(
-                  width: 300, // Larghezza desiderata
-                  height: 50, // Altezza desiderata
+                  width: 300,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       ora = '9:00:00';
                       onButtonClicked(ora);
-                      // Azione per il primo bottone
                     },
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
@@ -170,16 +161,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16, // Spazio desiderato tra i bottoni
+                  height: 16,
                 ),
                 SizedBox(
-                  width: 300, // Larghezza desiderata
-                  height: 50, // Altezza desiderata
+                  width: 300,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       ora = '10:00:00';
                       onButtonClicked(ora);
-                      // Azione per il primo bottone
                     },
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
@@ -188,16 +178,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16, // Spazio desiderato tra i bottoni
+                  height: 16,
                 ),
                 SizedBox(
-                  width: 300, // Larghezza desiderata
-                  height: 50, // Altezza desiderata
+                  width: 300,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       ora = '11:00:00';
                       onButtonClicked(ora);
-                      // Azione per il primo bottone
                     },
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
@@ -206,16 +195,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16, // Spazio desiderato tra i bottoni
+                  height: 16,
                 ),
                 SizedBox(
-                  width: 300, // Larghezza desiderata
-                  height: 50, // Altezza desiderata
+                  width: 300,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       ora = '15:00:00';
                       onButtonClicked(ora);
-                      // Azione per il primo bottone
                     },
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
@@ -224,16 +212,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16, // Spazio desiderato tra i bottoni
+                  height: 16,
                 ),
                 SizedBox(
-                  width: 300, // Larghezza desiderata
-                  height: 50, // Altezza desiderata
+                  width: 300,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       ora = '16:00:00';
                       onButtonClicked(ora);
-                      // Azione per il primo bottone
                     },
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
@@ -242,16 +229,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                   ),
                 ),
                 const SizedBox(
-                  height: 16, // Spazio desiderato tra i bottoni
+                  height: 16,
                 ),
                 SizedBox(
-                  width: 300, // Larghezza desiderata
-                  height: 50, // Altezza desiderata
+                  width: 300,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       ora = '17:00:00';
                       onButtonClicked(ora);
-                      // Azione per il primo bottone
                     },
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
@@ -262,21 +248,13 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
               ],
             ),
             const SizedBox(height: 32.0),
-          /*  Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Azione per il bottone di conferma
-                },
-                child: const Text('Conferma'),
-              ),
-            ), */
           ],
         ),
       ),
     );
   }
 }
-
+///metodo per il cambio di colore al click del bottone della fascia oraria
 MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
   return MaterialStateProperty.resolveWith((states) {
     if (states.contains(MaterialState.pressed)) {

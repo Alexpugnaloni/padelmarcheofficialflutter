@@ -4,11 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:padelmarcheofficialflutter/Login.dart';
 import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:intl/intl.dart';
-
 import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
 import 'package:padelmarcheofficialflutter/PrenotaUnaPartita.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,10 +14,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //await Firebase.initializeApp();
 
   GestioneFirebase gestioneFirebase = GestioneFirebase();
-
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set default home.
@@ -28,12 +23,9 @@ void main() async {
 
   /// se non c'è un account in memoria si va alla pagina di login
   if (gestioneFirebase.checkState()) {
-    // FirebaseAuth.instance.currentUser!=null) {
-    defaultHome = const HomePage(); //new MyApp();
+    defaultHome = const HomePage();
   }
   runApp(MaterialApp(
-    // theme: CustomTheme.lightTheme,
-    // darkTheme: CustomTheme.darkTheme,
     title: 'PadelMarche',
     home: defaultHome,
 
@@ -61,11 +53,6 @@ class _HomePage extends State<HomePage> {
   bool showProgress = false;
   late String email, password;
   int _currentIndex = 0;
-
-  //String annoCorrente = "";
-  // List anni = List.generate(0, (index) => null);  COMMENTATO IO
-  // List posts = List.generate(0, (index) => null);  COMMENTATO IO
-
   late HashMap account = HashMap();
 
   @override
@@ -76,27 +63,12 @@ class _HomePage extends State<HomePage> {
 
   ///inizializzazione
   ///si recuperano le informazioni dell'account loggato
-  ///si recuperano le classi associate al corso di laurea dell'account loggato
-  ///si recuperano i post della classe dell'account loggato
   void init() async {
     await gestioneFirebase.leggiInfo().then((acc) {
       setState(() {
         account = acc;
-
       });
     });
-   /* await gestioneFirebase.downloadAnni(account['idCorso']).then((ann) {
-      setState(() {
-        anni = ann;
-      });
-    });
-    await gestioneFirebase
-        .leggiPosts(account['idCorso'], account['idClasse'])
-        .then((ris) {
-      setState(() {
-        posts = ris;
-      });
-    }); */
   }
 
   ///funzione che viene richiamata quando devo visualizzare il profilo alla quale si passa l'hashMap identificativa dell'account
@@ -107,11 +79,10 @@ class _HomePage extends State<HomePage> {
       arguments: MyProfile(account),
     );
   }
-
+  ///funzione che viene richiamata quando devo prenotare una partita
   void _lauchPrenotaUnaPartita(){
     Navigator.pushNamed(context,
       PrenotaUnaPartita.routeName);
-    //FORSE PASSARE ANCHE L'ACCOUNT IN FUTURO
   }
 
   ///funzione utile alla cancellazione delle informazioni salvate in locale riguardo l'account
@@ -126,7 +97,7 @@ class _HomePage extends State<HomePage> {
       ModalRoute.withName('/home'),
     );
   }
-
+  ///funzione utile a scorrere tra i vari bottoni della bottombar con le relative funzioni
   void _onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -138,8 +109,6 @@ class _HomePage extends State<HomePage> {
         logout();
       }
     });
-
-
 }
 
 
@@ -173,13 +142,13 @@ class _HomePage extends State<HomePage> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // Gestisci l'azione quando il secondo pulsante viene premuto
+
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero,
             ),
             child: Ink.image(
-              image: const AssetImage('assets/uniscitir2.png'), // Cambia il percorso dell'immagine se necessario
+              image: const AssetImage('assets/uniscitir2.png'),
               width: 320,
               height: 200,
               fit: BoxFit.cover,

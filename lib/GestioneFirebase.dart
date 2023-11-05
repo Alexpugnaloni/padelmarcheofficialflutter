@@ -1,6 +1,4 @@
 import 'dart:collection';
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -41,7 +39,7 @@ class GestioneFirebase {
     var acc = HashMap();
     var risultato = await firestore.collection('Accounts')
         .doc(id)
-        .get(); //.then((risultato) async {
+        .get();
     acc['id'] = id;
     acc['email'] = email;
     acc['cellulare'] = risultato.data()!['cellulare'].toString();
@@ -52,7 +50,7 @@ class GestioneFirebase {
 
     return acc;
   }
-
+  ///funzione utile a scaricare le sedi dalla collection centrisportivi con le relative informazioni
   Future<Map<String, CentroSportivo>> downloadSedi() async {
     Map<String, CentroSportivo> centriPadel = {};
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Centrisportivi').get();
@@ -68,7 +66,7 @@ class GestioneFirebase {
 
     return centriPadel;
   }
-
+  ///funzione utile a scaricare i nomi delle sedi
   Future<List<String>> downloadNomiSedi() async {
     List<String> centriPadelList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Centrisportivi').get();
@@ -79,7 +77,7 @@ class GestioneFirebase {
 
     return centriPadelList;
   }
-
+  ///funzione utile a scaricare le prenotazioni dai centrisportivi passando il centro sportivo di riferimento
   Future<List<Prenotazione>> downloadPrenotazioni(String centroSportivo, String data) async {
     List<Prenotazione> prenotazioniList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -95,7 +93,7 @@ class GestioneFirebase {
 
     return prenotazioniList;
   }
-
+  ///funzione utile al caricamento della prenotazione su Firestore
   Future<void> uploadPrenotazione(String idCentroSportivo, DateTime data) async {
     Map<String, dynamic> prenotazione = {
       'idutente': FirebaseAuth.instance.currentUser!.uid,
@@ -110,24 +108,21 @@ class GestioneFirebase {
         .collection('Prenotazioni')
         .add(prenotazione);
   }
-
+  ///funzione che effettua un check con i parametri passati sulla prenotazione
+  ///in base al valore di ritorno della funzione si eseguirà o meno la prenotazione
+  ///concatenata con uploadprenotazione
   Future<bool> cercaPrenotazioniFirebase(String selectedSede, DateTime selectedDate, String oraDaControllare) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    // Formattiamo la data selezionata nel formato "yyyy-MM-dd"
-    String formattedDate = "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+  //  String formattedDate = "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
 
     try {
       QuerySnapshot prenotazioniSnapshot = await firestore
           .collection("Centrisportivi")
           .doc(selectedSede)
           .collection("Prenotazioni")
-          .where("data", isGreaterThanOrEqualTo: selectedDate, isLessThan: selectedDate.add(Duration(hours: 1))) // Filtra per la data e l'ora specifiche
+          .where("data", isGreaterThanOrEqualTo: selectedDate, isLessThan: selectedDate.add(Duration(hours: 1)))
           .get();
-
       return prenotazioniSnapshot.size > 0;
-
-
     } catch (e) {
       print("Errore nella ricerca delle prenotazioni: $e");
       return false;
