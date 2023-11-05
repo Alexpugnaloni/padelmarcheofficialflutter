@@ -115,6 +115,7 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {return Scaffold(
     appBar: AppBar(
+      leading: null,
       title: const Text('PadelMarche',
           style: TextStyle(color: Colors.white,
       )),

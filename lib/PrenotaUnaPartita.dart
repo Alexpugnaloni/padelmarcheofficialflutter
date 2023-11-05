@@ -100,7 +100,16 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Seleziona una Sede:'),
+            Text(
+              'Seleziona una Sede:',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'NotoSans',
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+
             DropdownButton<String>(
               value: selectedSede,
               items: sedi.map((sede) {
@@ -116,7 +125,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
               },
             ),
             const SizedBox(height: 16.0),
-            const Text('Seleziona una Data:'),
+            Text(
+              'Seleziona una Data:',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'NotoSans',
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
             ElevatedButton(
               onPressed: () async {
                 final DateTime? pickedDate = await showDatePicker(
@@ -136,10 +153,15 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
               ),
             ),
             const SizedBox(height: 20.0),
-            Center(
-              child: Text(
-                'Verifica e Conferma una prenotazione cliccando sulla fascia oraria desiderata:',
-                textAlign: TextAlign.center,
+            Text(
+              'Verifica e Conferma una prenotazione cliccando sulla fascia oraria desiderata:',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'NotoSans',
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+
               ),
             ),
 
@@ -157,9 +179,12 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 9:00 alle 10:00'),
+                    child: const Text('Ora dalle 9:00 alle 10:00',
+                      style: TextStyle(
+                      fontSize: 18.0),
                   ),
                 ),
+              ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -174,7 +199,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 10:00 alle 11:00'),
+                    child: const Text('Ora dalle 10:00 alle 11:00',
+                      style: TextStyle(
+                          fontSize: 18.0),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -191,7 +219,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 11:00 alle 12:00'),
+                    child: const Text('Ora dalle 11:00 alle 12:00',
+                      style: TextStyle(
+                          fontSize: 18.0),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -208,7 +239,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 15:00 alle 16:00'),
+                    child: const Text('Ora dalle 15:00 alle 16:00',
+                      style: TextStyle(
+                          fontSize: 18.0),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -225,7 +259,10 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 16:00 alle 17:00'),
+                    child: const Text('Ora dalle 16:00 alle 17:00',
+                      style: TextStyle(
+                          fontSize: 18.0),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -242,9 +279,13 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 17:00 alle 18:00'),
+                    child: const Text('Ora dalle 17:00 alle 18:00',
+                      style: TextStyle(
+                          fontSize: 18.0),
+                    ),
                   ),
                 ),
+
               ],
             ),
             const SizedBox(height: 32.0),
