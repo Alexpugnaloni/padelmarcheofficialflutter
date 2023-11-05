@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'dart:core';
 import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:flutter/material.dart';
+import 'package:padelmarcheofficialflutter/Login.dart';
+import 'package:padelmarcheofficialflutter/main.dart';
 
 import 'CentroSportivo.dart';
 
@@ -61,11 +63,12 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Conferma'),
-                content: Text('Prenotazione confermata per l\'ora $ora.'),
+                content: Text('Prenotazione confermata per l\'ora $ora il giorno $selectedDate nel centro di $selectedSede.'),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
+                      Navigator.pushNamed(context, '/home');
                     },
                     child: Text('OK'),
                   ),
@@ -105,7 +108,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Seleziona una Provincia:'),
+            const Text('Seleziona una Sede:'),
             DropdownButton<String>(
               value: selectedSede,
               items: sedi.map((sede) {
@@ -140,6 +143,14 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                 "${selectedDate.toLocal()}".split(' ')[0],
               ),
             ),
+            const SizedBox(height: 20.0),
+            Center(
+              child: Text(
+                'Verifica e Conferma una prenotazione cliccando sulla fascia oraria desiderata:',
+                textAlign: TextAlign.center, // Imposta l'allineamento del testo a "center"
+              ),
+            ),
+
             const SizedBox(height: 16.0),
             Column(
               children: [
@@ -251,14 +262,14 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
               ],
             ),
             const SizedBox(height: 32.0),
-            Center(
+          /*  Center(
               child: ElevatedButton(
                 onPressed: () {
                   // Azione per il bottone di conferma
                 },
                 child: const Text('Conferma'),
               ),
-            ),
+            ), */
           ],
         ),
       ),
