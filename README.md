@@ -1,16 +1,24 @@
 # padelmarcheofficialflutter
 
-A new Flutter project.
+Progetto sviluppato per esame di Programmazione Mobile Univpm.
+Progetto a scopo didattico.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+PadelMarche è un Applicazione in Flutter Dart per la gestione di prenotazioni di campi da padel
+per utenti registrati.
+Si suppone che questa azienda a livello regionale abbia a gestione un centro padel per ogni provincia
+della regione Marche.
 
-A few resources to get you started if this is your first Flutter project:
+## Funzionalità
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+L'applicazione presenta solo alcune feature rispetto all'app in Android Kotlin tra cui
+abbiamo:
+- Accesso all'applicazione con delle credenziali fornite da noi Developer
+- Visionare le informazioni dell'account
+- Prenotazione di una partita di padel
+- Logout
+- Collegamento con Firebase per autenticazione
+- Collegamento a Firestore per download ed upload delle informazioni
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
