@@ -21,4 +21,8 @@ abbiamo:
 - Collegamento con Firebase per autenticazione
 - Collegamento a Firestore per download ed upload delle informazioni
 
+## Credenziali di accesso
+- Email : accountflutter@gmail.com
+- Password : asdfghjkl
+
 
