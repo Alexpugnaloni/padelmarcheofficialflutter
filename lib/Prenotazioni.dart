@@ -77,6 +77,7 @@ class _PrenotazioniState extends State<Prenotazioni> {
 
                 });
                 prenotazioniUtente = await GestioneFirebase().downloadPrenotazioniUtente(mappacentri[selectedSede]!.id, _auth.currentUser!.uid.toString());
+                prenotazioniUtente.sort((a,b) => a.data.compareTo(b.data));
                 print(prenotazioniUtente);
                 setState(() {
                   prenotazioniUtente;
@@ -93,6 +94,7 @@ class _PrenotazioniState extends State<Prenotazioni> {
                 color: Colors.black,
               ),
             ),
+            const SizedBox(height: 16.0),
             Expanded(
               child: ListView.builder(
                 itemCount: prenotazioniUtente.length,
@@ -103,21 +105,33 @@ class _PrenotazioniState extends State<Prenotazioni> {
                     child: Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(15.0),
-                      // Regola il padding a tuo piacimento
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue),
-                        // Aggiunge un bordo
+                        border: Border.all(color: Colors.blue, width: 2.0),
                         borderRadius: BorderRadius.circular(
-                            15.0), // Rende gli elementi riquadrati
+                            15.0),
                       ),
-                      child: Text('Data: ${prenotazione.data}'),
-                      // Aggiungi altre informazioni sulla prenotazione se necessario.
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Data: ${prenotazione.data.day}/${prenotazione.data.month}/${prenotazione.data.year}',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Text(
+                            'Dalle ore: ${prenotazione.data.hour}:${prenotazione.data.minute}0',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
-
           ],
         ),
       ),
