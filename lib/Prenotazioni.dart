@@ -84,18 +84,40 @@ class _PrenotazioniState extends State<Prenotazioni> {
               },
             ),
             const SizedBox(height: 16.0),
+            Text(
+              'Ecco qua le tue prenotazioni:',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'NotoSans',
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
             Expanded(
               child: ListView.builder(
                 itemCount: prenotazioniUtente.length,
                 itemBuilder: (context, index) {
                   final prenotazione = prenotazioniUtente[index];
-                  return ListTile(
-                    title: Text('Data: ${prenotazione.data}'),
-                    // Aggiungi altre informazioni sulla prenotazione se necessario.
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 16.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(15.0),
+                      // Regola il padding a tuo piacimento
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue),
+                        // Aggiunge un bordo
+                        borderRadius: BorderRadius.circular(
+                            15.0), // Rende gli elementi riquadrati
+                      ),
+                      child: Text('Data: ${prenotazione.data}'),
+                      // Aggiungi altre informazioni sulla prenotazione se necessario.
+                    ),
                   );
                 },
               ),
             ),
+
           ],
         ),
       ),
