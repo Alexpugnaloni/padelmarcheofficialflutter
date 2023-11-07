@@ -17,15 +17,15 @@ abbiamo:
 - Accesso all'applicazione con delle credenziali fornite da noi Developer
 - Visionare le informazioni dell'account
 - Prenotazione di una partita di padel
+- Visualizzazione delle prenotazioni effettuate dall'utente
 - Logout
 - Collegamento con Firebase per autenticazione
 - Collegamento a Firestore per download ed upload delle informazioni
 
 ## Implementazioni future
-Tenendo in considerazione solo di alcune feature all'interno dell'app sono presenti NON FUNZIONALITA',
-ossia il bottone "unisciti ad una partita" e la sezione "prenotazioni" in cui l'utente poteva avere 
-un recap delle prenotazioni effettuate.
-Cliccando su questi elementi di conseguenza non accadrà nulla, ma ci riserviamo la possibilità di
+Tenendo in considerazione solo di alcune feature, all'interno dell'app non sono presenti la sezione
+"unisciti ad una partita" e la fase di registrazione.
+Cliccando sul bottone "unisciti ad una partita" di conseguenza non accadrà nulla, ma ci riserviamo la possibilità di
 implementare queste funzionalità in futuro.
 
 ## Credenziali di accesso
