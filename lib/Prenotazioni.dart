@@ -5,6 +5,7 @@ import 'GestioneFirebase.dart';
 import 'dart:core';
 import 'Prenotazione.dart';
 
+///Classe che mostra a video le prenotazioni effettuate dall'utente
 class Prenotazioni extends StatefulWidget {
   static const routeName = '/prenotazioni';
   static final gestionefirebase = GestioneFirebase();
@@ -76,6 +77,8 @@ class _PrenotazioniState extends State<Prenotazioni> {
                   print(_auth.currentUser!.uid.toString());
 
                 });
+                ///download delle prenotazioni dell'utente una volta passato l'id della sede e l'id dell'utente
+                ///si effettua inoltre l'ordinamento delle date
                 prenotazioniUtente = await GestioneFirebase().downloadPrenotazioniUtente(mappacentri[selectedSede]!.id, _auth.currentUser!.uid.toString());
                 prenotazioniUtente.sort((a,b) => a.data.compareTo(b.data));
                 print(prenotazioniUtente);

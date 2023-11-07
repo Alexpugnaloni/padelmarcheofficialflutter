@@ -3,9 +3,11 @@ import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:flutter/material.dart';
 import 'CentroSportivo.dart';
 
+///Classe utlizzata per prenotare una partita
 class PrenotaUnaPartita extends StatefulWidget {
   static const routeName = '/prenotaunapartita';
   static final gestionefirebase = GestioneFirebase();
+
   const PrenotaUnaPartita({super.key});
 
   @override
@@ -18,6 +20,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
   List<String> sedi = [];
   String ora = '9:00:00';
   late Map<String, CentroSportivo> mappacentri;
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +30,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
       setState(() {
         mappacentri = sediList;
         List<String> temp = [];
-        for( var sede in sediList.keys){
+        for (var sede in sediList.keys) {
           temp.add(sede);
         }
         sedi = temp;
@@ -43,19 +46,24 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
         List<String> parti = ora.split(":");
         DateTime selected = selectedDate;
         selected = selected.add(Duration(hours: int.tryParse(parti[0])!));
+
         ///i parametri popolati precedentemente, li passa a cercaprenotazionifirebase
         final bool fasciaOccupata = await GestioneFirebase()
-            .cercaPrenotazioniFirebase(mappacentri[selectedSede]!.id, selected, ora);
+            .cercaPrenotazioniFirebase(
+                mappacentri[selectedSede]!.id, selected, ora);
+
         ///se la sede selezionata, la data e la fascia oraria sono disponibili,
         ///effettua l'upload della prenotazione
         if (!fasciaOccupata) {
-          GestioneFirebase().uploadPrenotazione(mappacentri[selectedSede]!.id, selected);
+          GestioneFirebase()
+              .uploadPrenotazione(mappacentri[selectedSede]!.id, selected);
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Conferma'),
-                content: Text('Prenotazione confermata per l\'ora $ora il giorno $selectedDate nel centro di $selectedSede.'),
+                content: Text(
+                    'Prenotazione confermata per l\'ora $ora nel centro di $selectedSede.'),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
@@ -68,6 +76,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
               );
             },
           );
+
           ///se l'orario non è disponibile lancia questo dialog
         } else {
           showDialog(
@@ -109,7 +118,6 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                 color: Colors.black,
               ),
             ),
-
             DropdownButton<String>(
               value: selectedSede,
               items: sedi.map((sede) {
@@ -161,10 +169,8 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                 fontFamily: 'NotoSans',
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
-
               ),
             ),
-
             const SizedBox(height: 16.0),
             Column(
               children: [
@@ -179,12 +185,12 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 9:00 alle 10:00',
-                      style: TextStyle(
-                      fontSize: 18.0),
+                    child: const Text(
+                      'Ora dalle 9:00 alle 10:00',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
                   ),
                 ),
-              ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -199,9 +205,9 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 10:00 alle 11:00',
-                      style: TextStyle(
-                          fontSize: 18.0),
+                    child: const Text(
+                      'Ora dalle 10:00 alle 11:00',
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
@@ -219,9 +225,9 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 11:00 alle 12:00',
-                      style: TextStyle(
-                          fontSize: 18.0),
+                    child: const Text(
+                      'Ora dalle 11:00 alle 12:00',
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
@@ -239,9 +245,9 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 15:00 alle 16:00',
-                      style: TextStyle(
-                          fontSize: 18.0),
+                    child: const Text(
+                      'Ora dalle 15:00 alle 16:00',
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
@@ -259,9 +265,9 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 16:00 alle 17:00',
-                      style: TextStyle(
-                          fontSize: 18.0),
+                    child: const Text(
+                      'Ora dalle 16:00 alle 17:00',
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
@@ -279,13 +285,12 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                     style: ButtonStyle(
                       backgroundColor: getColor(Colors.blue, Colors.red),
                     ),
-                    child: const Text('Ora dalle 17:00 alle 18:00',
-                      style: TextStyle(
-                          fontSize: 18.0),
+                    child: const Text(
+                      'Ora dalle 17:00 alle 18:00',
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
-
               ],
             ),
             const SizedBox(height: 32.0),
@@ -295,6 +300,7 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
     );
   }
 }
+
 ///metodo per il cambio di colore al click del bottone della fascia oraria
 MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
   return MaterialStateProperty.resolveWith((states) {

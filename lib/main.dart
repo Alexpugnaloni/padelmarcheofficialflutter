@@ -42,6 +42,8 @@ void main() async {
   ));
 }
 
+
+///Classe principale che gestisce le rotte di navigazione della nostra app
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -52,7 +54,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   final GestioneFirebase gestioneFirebase = GestioneFirebase();
-  bool showProgress = false;
   late String email, password;
   int _currentIndex = 0;
   late HashMap account = HashMap();
@@ -86,7 +87,7 @@ class _HomePage extends State<HomePage> {
     Navigator.pushNamed(context,
       PrenotaUnaPartita.routeName);
   }
-
+  ///funzione che viene richiamata quando voglio navigare verso le mie prenotazioni
   void _lauchPrenotazioni(){
     Navigator.pushNamed(context,
         Prenotazioni.routeName);

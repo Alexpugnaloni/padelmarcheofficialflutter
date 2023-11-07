@@ -19,14 +19,14 @@ class GestioneFirebase {
   void initGestioneFirebase() async {
     await Firebase.initializeApp();
   }
-
+  ///Funzione booleana che controlla se l'utente è loggato
   bool checkState() {
     if (auth.currentUser == null) {
       return false;
     }
     return true;
   }
-
+  ///Funzione che ritorna l'id dell'utente
   String getUserId() {
     return auth.currentUser!.uid;
   }
@@ -50,7 +50,7 @@ class GestioneFirebase {
 
     return acc;
   }
-  ///funzione utile a scaricare le sedi dalla collection centrisportivi con le relative informazioni
+  ///Funzione utile a scaricare le sedi dalla collection centrisportivi con le relative informazioni
   Future<Map<String, CentroSportivo>> downloadSedi() async {
     Map<String, CentroSportivo> centriPadel = {};
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Centrisportivi').get();
@@ -66,7 +66,7 @@ class GestioneFirebase {
 
     return centriPadel;
   }
-  ///funzione utile a scaricare i nomi delle sedi
+  ///Funzione utile a scaricare i nomi delle sedi
   Future<List<String>> downloadNomiSedi() async {
     List<String> centriPadelList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Centrisportivi').get();
@@ -77,7 +77,7 @@ class GestioneFirebase {
 
     return centriPadelList;
   }
-  ///funzione utile a scaricare le prenotazioni dai centrisportivi passando il centro sportivo di riferimento
+  ///Funzione utile a scaricare le prenotazioni dai centrisportivi passando il centro sportivo di riferimento
   Future<List<Prenotazione>> downloadPrenotazioni(String centroSportivo, String data) async {
     List<Prenotazione> prenotazioniList = [];
     QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -93,7 +93,7 @@ class GestioneFirebase {
 
     return prenotazioniList;
   }
-  ///funzione utile al caricamento della prenotazione su Firestore
+  ///Funzione utile al caricamento della prenotazione su Firestore
   Future<void> uploadPrenotazione(String idCentroSportivo, DateTime data) async {
     Map<String, dynamic> prenotazione = {
       'idutente': FirebaseAuth.instance.currentUser!.uid,
@@ -113,7 +113,6 @@ class GestioneFirebase {
   ///concatenata con uploadprenotazione
   Future<bool> cercaPrenotazioniFirebase(String selectedSede, DateTime selectedDate, String oraDaControllare) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //  String formattedDate = "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
 
     try {
       QuerySnapshot prenotazioniSnapshot = await firestore
@@ -128,7 +127,8 @@ class GestioneFirebase {
       return false;
     }
   }
-
+  ///Funzione che effettua il download delle prenotazioni dell'utente passando il centro sportivo
+  ///e l'id dell'utente
   Future<List<Prenotazione>> downloadPrenotazioniUtente(String centroSportivo, String utenteID) async {
     List<Prenotazione> prenotazioniList = [];
 

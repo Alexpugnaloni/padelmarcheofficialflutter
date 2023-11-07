@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 
+
+///Classe che mostra a video le informazioni dell'account loggato
 class MyProfile{
   HashMap account;
   MyProfile(this.account);
