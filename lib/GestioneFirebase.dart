@@ -129,5 +129,23 @@ class GestioneFirebase {
     }
   }
 
+  Future<List<Prenotazione>> downloadPrenotazioniUtente(String centroSportivo, String utenteID) async {
+    List<Prenotazione> prenotazioniList = [];
+
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Centrisportivi')
+        .doc(centroSportivo)
+        .collection('Prenotazioni')
+        .where('idutente', isEqualTo: utenteID)
+        .get();
+
+    for (QueryDocumentSnapshot doc in snapshot.docs) {
+      DateTime dataPrenotazione = (doc['data'] as Timestamp).toDate();
+      prenotazioniList.add(Prenotazione(utenteID, centroSportivo, dataPrenotazione));
+    }
+
+    return prenotazioniList;
+  }
+
 
 }

@@ -6,6 +6,7 @@ import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
 import 'package:padelmarcheofficialflutter/PrenotaUnaPartita.dart';
+import 'Prenotazioni.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -35,7 +36,8 @@ void main() async {
       '/home': (BuildContext context) => const HomePage(),
       MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
       ViewProfile.routeName: (context) => const ViewProfile(),
-      PrenotaUnaPartita.routeName: (context) => const PrenotaUnaPartita()
+      PrenotaUnaPartita.routeName: (context) => const PrenotaUnaPartita(),
+      Prenotazioni.routeName: (context) => const Prenotazioni()
     },
   ));
 }
@@ -85,6 +87,11 @@ class _HomePage extends State<HomePage> {
       PrenotaUnaPartita.routeName);
   }
 
+  void _lauchPrenotazioni(){
+    Navigator.pushNamed(context,
+        Prenotazioni.routeName);
+  }
+
   ///funzione utile alla cancellazione delle informazioni salvate in locale riguardo l'account
   ///ed utile per tornare alla pagina di login
   void logout() async {
@@ -104,6 +111,8 @@ class _HomePage extends State<HomePage> {
       print(_currentIndex);
       if(_currentIndex == 0){
         _lauchUserProfile();
+      }else if(_currentIndex == 1){
+        _lauchPrenotazioni();
       }
       else if(_currentIndex == 2){
         logout();
