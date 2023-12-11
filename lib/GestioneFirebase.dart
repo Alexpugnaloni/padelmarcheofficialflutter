@@ -178,8 +178,8 @@ class GestioneFirebase {
     return amministratoriList;
   }
 
-  Future<List<Prenotazione>> downloadPrenotazioniAmministratore(String userEmail) async {
-    List<Prenotazione> prenotazioniList = [];
+  Future<List<PrenotazioneAdmin>> downloadPrenotazioniAmministratore(String userEmail) async {
+    List<PrenotazioneAdmin> prenotazioniList = [];
 
     try {
       QuerySnapshot amministratoriSnapshot = await FirebaseFirestore.instance
@@ -204,15 +204,35 @@ class GestioneFirebase {
               .get();
 
           if (prenotazioniSnapshot.docs.isNotEmpty) {
-            prenotazioniSnapshot.docs.forEach((prenotazione) {
+            for (var prenotazione in prenotazioniSnapshot.docs) {
               String userId = prenotazione['idutente'];
               DateTime data = prenotazione['data'].toDate();
               String prenotazioneId = prenotazione.id;
               String centroSportivo = sedeSnapshot['sede']; // Associa il campo sede al campo centroSportivo
 
-              prenotazioniList.add(Prenotazione(
-                  prenotazioneId,userId,centroSportivo, data));
-            });
+              // Ottieni informazioni dall'account dell'utente
+              DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+                  .collection('Accounts')
+                  .doc(userId)
+                  .get();
+
+              if (userSnapshot.exists) {
+                String nome = userSnapshot['nome'];
+                String cognome = userSnapshot['cognome'];
+                String cellulare = userSnapshot['cellulare'];
+
+                String nomeUtente = '$nome $cognome';
+
+                prenotazioniList.add(PrenotazioneAdmin(
+                  prenotazioneId,
+                  userId,
+                  nomeUtente,
+                  centroSportivo,
+                  data,
+                  cellulare,
+                ));
+              }
+            }
           } else {
             print('Nessuna prenotazione trovata per la data odierna o futura');
           }
@@ -228,6 +248,7 @@ class GestioneFirebase {
 
     return prenotazioniList;
   }
+
 
 
 

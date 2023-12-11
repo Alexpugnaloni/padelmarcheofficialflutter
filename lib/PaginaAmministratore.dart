@@ -18,7 +18,7 @@ class PaginaAmministratore extends StatefulWidget {
 
 class _PaginaAmministratoreState extends State<PaginaAmministratore> {
   final _auth = FirebaseAuth.instance;
-  List<Prenotazione> prenotazioniAmministratore = [];
+  List<PrenotazioneAdmin> prenotazioniAmministratore = [];
   int _currentIndex = 0;
 
   @override
@@ -100,6 +100,12 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
+                            'Nome e Cognome: ${prenotazione.nomeUtente}',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Text(
                             'Data: ${prenotazione.data.day}/${prenotazione.data.month}/${prenotazione.data.year}',
                             style: const TextStyle(
                               fontSize: 16.0,
@@ -107,6 +113,12 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
                           ),
                           Text(
                             'Dalle ore: ${prenotazione.data.hour}:${prenotazione.data.minute}0',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Text(
+                            'Cellulare: ${prenotazione.cellulare}',
                             style: const TextStyle(
                               fontSize: 16.0,
                             ),
