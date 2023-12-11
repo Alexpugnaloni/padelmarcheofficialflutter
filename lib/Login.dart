@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:padelmarcheofficialflutter/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:padelmarcheofficialflutter/Amministratore.dart';
 
 ///Classe utile ad effetturare l'accesso sull'applicazione
 class MyLoginPage extends StatefulWidget {
@@ -15,10 +17,23 @@ class MyLoginPage extends StatefulWidget {
 
 class _MyLoginPageState extends State<MyLoginPage> {
   final _auth = FirebaseAuth.instance;
+  //final TextEditingController _emailController = TextEditingController();
+ // final TextEditingController _passwordController = TextEditingController();
   bool emailcorretta = true;
   bool nascondipassword = true;
   String email = "";
   String password = "";
+  List<Amministratore> _amministratori = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAmministratori();
+  }
+
+  Future<void> _fetchAmministratori() async {
+    _amministratori = await GestioneFirebase().downloadAmministratori();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,20 +122,28 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         onPressed: () async {
                           setState(() {});
                           try {
-                            ///login su firebase
-                            final newUser =
-                                await _auth.signInWithEmailAndPassword(
-                                    email: email, password: password);
-                            print(newUser.toString());
-
-                            ///navigazione verso la homepage
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return const HomePage();
-                              }),
+                            // Effettua l'accesso su Firebase
+                            final newUser = await _auth.signInWithEmailAndPassword(
+                              email: email,
+                              password: password,
                             );
-                            Navigator.of(context).pushNamed("/home");
+
+                            // Recupera la lista degli amministratori
+                            await _fetchAmministratori();
+
+                            // Controllo se l'utente è un amministratore
+                            final isAdmin = _amministratori.any((admin) =>
+                            admin.email.toLowerCase() == email.toLowerCase());
+
+                            if (newUser != null) {
+                              if (isAdmin) {
+                                // Utente è un amministratore, naviga verso PaginaAmministratore
+                                Navigator.pushReplacementNamed(context, '/pagina_amministratore');
+                              } else {
+                                // Utente normale, naviga verso HomePage
+                                Navigator.pushReplacementNamed(context, '/home');
+                              }
+                            }
                           } catch (e) {
                             Fluttertoast.showToast(
                                 msg: "Credenziali errate",

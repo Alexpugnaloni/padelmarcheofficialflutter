@@ -1,9 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:padelmarcheofficialflutter/Login.dart';
 import 'package:padelmarcheofficialflutter/GestioneFirebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:padelmarcheofficialflutter/PaginaAmministratore.dart';
 import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
 import 'package:padelmarcheofficialflutter/PrenotaUnaPartita.dart';
 import 'Prenotazioni.dart';
@@ -37,7 +40,8 @@ void main() async {
       MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
       ViewProfile.routeName: (context) => const ViewProfile(),
       PrenotaUnaPartita.routeName: (context) => const PrenotaUnaPartita(),
-      Prenotazioni.routeName: (context) => const Prenotazioni()
+      Prenotazioni.routeName: (context) => const Prenotazioni(),
+      PaginaAmministratore.routeName: (context) => const PaginaAmministratore()
     },
   ));
 }
@@ -106,7 +110,7 @@ class _HomePage extends State<HomePage> {
     );
   }
   ///funzione utile a scorrere tra i vari bottoni della bottombar con le relative funzioni
-  void _onTabTapped(int index) {
+  void _onTabTapped(int index, BuildContext context) {
     setState(() {
       _currentIndex = index;
       print(_currentIndex);
@@ -171,22 +175,25 @@ class _HomePage extends State<HomePage> {
 
     bottomNavigationBar: BottomNavigationBar(
       currentIndex: _currentIndex,
-      onTap: _onTabTapped,
-      items: const [
-        BottomNavigationBarItem(
+      onTap: (index) {
+        _onTabTapped(index, context);
+      },
+      items: [
+        const BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profilo',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today),
           label: 'Prenotazioni',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.exit_to_app),
           label: 'Logout',
         ),
       ],
     ),
+
   );
   }
 }

@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:padelmarcheofficialflutter/CentroSportivo.dart';
 import 'package:padelmarcheofficialflutter/Prenotazione.dart';
+import 'package:padelmarcheofficialflutter/Amministratore.dart';
 
 class GestioneFirebase {
   /// Riferimento per *Firestore*
@@ -88,11 +89,13 @@ class GestioneFirebase {
 
     for (QueryDocumentSnapshot doc in snapshot.docs) {
       DateTime dataPrenotazione = (doc['data'] as Timestamp).toDate();
-      prenotazioniList.add(Prenotazione(doc['idutente'].toString(), centroSportivo, dataPrenotazione));
+      String idPrenotazione = doc.id;
+      prenotazioniList.add(Prenotazione(idPrenotazione, doc['idutente'].toString(), centroSportivo, dataPrenotazione));
     }
 
     return prenotazioniList;
   }
+
   ///Funzione utile al caricamento della prenotazione su Firestore
   Future<void> uploadPrenotazione(String idCentroSportivo, DateTime data) async {
     Map<String, dynamic> prenotazione = {
@@ -131,6 +134,7 @@ class GestioneFirebase {
   ///e l'id dell'utente
   Future<List<Prenotazione>> downloadPrenotazioniUtente(String centroSportivo, String utenteID) async {
     List<Prenotazione> prenotazioniList = [];
+    DateTime dataOdierna = DateTime.now();
 
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('Centrisportivi')
@@ -141,11 +145,93 @@ class GestioneFirebase {
 
     for (QueryDocumentSnapshot doc in snapshot.docs) {
       DateTime dataPrenotazione = (doc['data'] as Timestamp).toDate();
-      prenotazioniList.add(Prenotazione(utenteID, centroSportivo, dataPrenotazione));
+      String idPrenotazione = doc.id;
+
+      // Aggiungi solo le prenotazioni con data futura rispetto alla data odierna
+      if (dataPrenotazione.isAfter(dataOdierna) || dataPrenotazione.isAtSameMomentAs(dataOdierna)) {
+        prenotazioniList.add(Prenotazione(idPrenotazione, utenteID, centroSportivo, dataPrenotazione));
+      }
     }
 
     return prenotazioniList;
   }
+
+  Future<List<Amministratore>> downloadAmministratori() async {
+    List<Amministratore> amministratoriList = [];
+
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Amministratori').get();
+
+    for (QueryDocumentSnapshot doc in snapshot.docs) {
+      String idAmministratore = doc.id;
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+      String nome = data['nome'] as String;
+      String cognome = data['cognome'] as String;
+      String email = data['email'] as String;
+      String sede = data['idsede'] as String;
+      String telefono = data['telefono'] as String;
+
+      Amministratore amministratore = Amministratore(idAmministratore, nome, cognome, email, sede, telefono);
+      amministratoriList.add(amministratore);
+    }
+
+    return amministratoriList;
+  }
+
+  Future<List<Prenotazione>> downloadPrenotazioniAmministratore(String userEmail) async {
+    List<Prenotazione> prenotazioniList = [];
+
+    try {
+      QuerySnapshot amministratoriSnapshot = await FirebaseFirestore.instance
+          .collection('Amministratori')
+          .where('email', isEqualTo: userEmail)
+          .get();
+
+      if (amministratoriSnapshot.docs.isNotEmpty) {
+        String sedeId = amministratoriSnapshot.docs[0]['idsede'];
+
+        DocumentSnapshot sedeSnapshot = await FirebaseFirestore.instance
+            .collection('Centrisportivi')
+            .doc(sedeId)
+            .get();
+
+        if (sedeSnapshot.exists) {
+          CollectionReference prenotazioniRef = FirebaseFirestore.instance
+              .collection('Centrisportivi')
+              .doc(sedeId)
+              .collection('Prenotazioni');
+
+          DateTime now = DateTime.now();
+          QuerySnapshot prenotazioniSnapshot = await prenotazioniRef
+              .where('data', isGreaterThanOrEqualTo: now)
+              .get();
+
+          if (prenotazioniSnapshot.docs.isNotEmpty) {
+            prenotazioniSnapshot.docs.forEach((prenotazione) {
+              String userId = prenotazione['idutente'];
+              DateTime data = prenotazione['data'].toDate();
+              String prenotazioneId = prenotazione.id;
+              String centroSportivo = sedeSnapshot['sede']; // Associa il campo sede al campo centroSportivo
+
+              prenotazioniList.add(Prenotazione(
+                  prenotazioneId,userId,centroSportivo, data));
+            });
+          } else {
+            print('Nessuna prenotazione trovata per la data odierna o futura');
+          }
+        } else {
+          print('Sede non trovata nella raccolta Centrisportivi');
+        }
+      } else {
+        print('Amministratore non trovato');
+      }
+    } catch (e) {
+      print('Errore durante il recupero delle prenotazioni: $e');
+    }
+
+    return prenotazioniList;
+  }
+
 
 
 }
