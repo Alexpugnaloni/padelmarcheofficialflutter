@@ -196,10 +196,7 @@ class GestioneFirebase {
             .get();
 
         if (sedeSnapshot.exists) {
-          CollectionReference prenotazioniRef = FirebaseFirestore.instance
-              .collection('Centrisportivi')
-              .doc(sedeId)
-              .collection('Prenotazioni');
+          CollectionReference prenotazioniRef = sedeSnapshot.reference.collection('Prenotazioni');
 
           DateTime now = DateTime.now();
           QuerySnapshot prenotazioniSnapshot = await prenotazioniRef
