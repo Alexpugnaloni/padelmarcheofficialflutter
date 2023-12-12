@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'dart:collection';
 import 'package:firebase_core/firebase_core.dart';
@@ -151,21 +149,6 @@ class _HomePage extends State<HomePage> {
             ),
             child: Ink.image(
               image: const AssetImage('assets/prenotaunapartitabutton.png'),
-              width: 320,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.zero,
-            ),
-            child: Ink.image(
-              image: const AssetImage('assets/uniscitir2.png'),
               width: 320,
               height: 200,
               fit: BoxFit.cover,

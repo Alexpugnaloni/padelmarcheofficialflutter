@@ -21,15 +21,20 @@ abbiamo:
 - Logout
 - Collegamento con Firebase per autenticazione
 - Collegamento a Firestore per download ed upload delle informazioni
+- Sezione per Amministratori con credenziali fornite dai noi Developer dove è possibile visionare
+tutte le prenotazioni effettuate dagli utenti nel proprio centro
+- Sezione Super Amministratore con credenziali fornite da noi Developer con Statistiche su iscritti
+ed entrate monetarie
 
-## Implementazioni future
-Tenendo in considerazione solo di alcune feature, all'interno dell'app non sono presenti la sezione
-"unisciti ad una partita" e la fase di registrazione.
-Cliccando sul bottone "unisciti ad una partita" di conseguenza non accadrà nulla, ma ci riserviamo la possibilità di
-implementare queste funzionalità in futuro.
 
 ## Credenziali di accesso
+UTENTE
 - Email : accountflutter@gmail.com
 - Password : asdfghjkl
-
+AMMINISTRATORE DI PROVA (ANCONA)
+- Email : ancona@padelmarche.it
+- Password : Anconaancona
+SUPERAMMINISTRATORE
+- Email : superadmin@padelmarche.it
+- Password : Superadmin
 
