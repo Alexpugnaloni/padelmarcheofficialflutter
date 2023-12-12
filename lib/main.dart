@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:padelmarcheofficialflutter/PaginaAmministratore.dart';
 import 'package:padelmarcheofficialflutter/PaginaProfilo.dart';
 import 'package:padelmarcheofficialflutter/PrenotaUnaPartita.dart';
+import 'package:padelmarcheofficialflutter/PaginaSuperAdmin.dart';
 import 'Prenotazioni.dart';
 import 'firebase_options.dart';
 
@@ -41,7 +42,8 @@ void main() async {
       ViewProfile.routeName: (context) => const ViewProfile(),
       PrenotaUnaPartita.routeName: (context) => const PrenotaUnaPartita(),
       Prenotazioni.routeName: (context) => const Prenotazioni(),
-      PaginaAmministratore.routeName: (context) => const PaginaAmministratore()
+      PaginaAmministratore.routeName: (context) => const PaginaAmministratore(),
+      PaginaSuperAdmin.routeName: (context) => const PaginaSuperAdmin()
     },
   ));
 }

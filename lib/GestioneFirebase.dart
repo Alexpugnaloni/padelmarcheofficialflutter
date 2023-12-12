@@ -250,6 +250,146 @@ class GestioneFirebase {
   }
 
 
+  Future<List<Superadmin>> downloadSuperadmin() async {
+    List<Superadmin> superAdminList = [];
+
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Superadmin').get();
+
+    for (QueryDocumentSnapshot doc in snapshot.docs) {
+      String idSuperAdmin = doc.id;
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+      String nome = data['nome'] as String;
+      String cognome = data['cognome'] as String;
+      String email = data['email'] as String;
+      String telefono = data['telefono'] as String;
+
+      Superadmin superAdmin = Superadmin(idSuperAdmin, nome, cognome, email, telefono);
+      superAdminList.add(superAdmin);
+    }
+
+    return superAdminList;
+  }
+
+  Future<int> countPrenotazioniPerDataOdierna() async {
+    try {
+      // Ottieni la data odierna
+      DateTime now = DateTime.now();
+
+      // Ottieni tutti i documenti dalla raccolta 'Centrisportivi'
+      QuerySnapshot centriSportiviSnapshot =
+      await FirebaseFirestore.instance.collection('Centrisportivi').get();
+
+      int prenotazioniPerDataOdierna = 0;
+
+      // Cicla attraverso ciascun documento nella raccolta 'Centrisportivi'
+      for (QueryDocumentSnapshot centroSportivo in centriSportiviSnapshot.docs) {
+        // Ottieni l'id del centro sportivo corrente
+        String centroSportivoId = centroSportivo.id;
+
+        // Ottieni tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
+        QuerySnapshot prenotazioniSnapshot = await FirebaseFirestore.instance
+            .collection('Centrisportivi')
+            .doc(centroSportivoId)
+            .collection('Prenotazioni')
+            .get();
+
+        // Conta il numero di prenotazioni per la data odierna
+        prenotazioniSnapshot.docs.forEach((prenotazione) {
+          DateTime dataPrenotazione = prenotazione['data'].toDate();
+          if (dataPrenotazione.year == now.year &&
+              dataPrenotazione.month == now.month &&
+              dataPrenotazione.day == now.day) {
+            prenotazioniPerDataOdierna++;
+          }
+        });
+      }
+
+      return prenotazioniPerDataOdierna;
+    } catch (e) {
+      print('Errore durante il conteggio delle prenotazioni: $e');
+      return 0; // Ritorna 0 se si verifica un errore
+    }
+  }
+
+  Future<int> countPrenotazioniUltimaSettimana() async {
+    try {
+      // Ottieni la data di oggi e la data esattamente una settimana fa
+      DateTime today = DateTime.now();
+      DateTime lastWeek = today.subtract(const Duration(days: 7));
+
+      // Inizializza la data di fine a quella di oggi a mezzanotte
+      DateTime endDateTime = DateTime(today.year, today.month, today.day, 23, 59, 59);
+
+      int prenotazioniUltimaSettimana = 0;
+
+      // Ottieni tutti i documenti dalla raccolta 'Centrisportivi'
+      QuerySnapshot centriSportiviSnapshot =
+      await FirebaseFirestore.instance.collection('Centrisportivi').get();
+
+      // Cicla attraverso ciascun documento nella raccolta 'Centrisportivi'
+      for (QueryDocumentSnapshot centroSportivo in centriSportiviSnapshot.docs) {
+        // Ottieni l'id del centro sportivo corrente
+        String centroSportivoId = centroSportivo.id;
+
+        // Ottieni tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
+        QuerySnapshot prenotazioniSnapshot = await FirebaseFirestore.instance
+            .collection('Centrisportivi')
+            .doc(centroSportivoId)
+            .collection('Prenotazioni')
+            .where('data', isGreaterThanOrEqualTo: lastWeek, isLessThanOrEqualTo: endDateTime)
+            .get();
+
+        // Aggiungi il numero di prenotazioni nell'intervallo specificato
+        prenotazioniUltimaSettimana += prenotazioniSnapshot.docs.length;
+      }
+
+      return prenotazioniUltimaSettimana;
+    } catch (e) {
+      print('Errore durante il conteggio delle prenotazioni: $e');
+      return 0; // Ritorna 0 se si verifica un errore
+    }
+  }
+
+  Future<int> countPrenotazioniUltimoMese() async {
+    try {
+      // Ottieni la data di oggi e la data esattamente un mese fa
+      DateTime today = DateTime.now();
+      DateTime lastMonth = today.subtract(const Duration(days: 30));
+
+      // Inizializza la data di fine a quella di oggi a mezzanotte
+      DateTime endDateTime = DateTime(today.year, today.month, today.day, 23, 59, 59);
+
+      int prenotazioniUltimoMese = 0;
+
+      // Ottieni tutti i documenti dalla raccolta 'Centrisportivi'
+      QuerySnapshot centriSportiviSnapshot =
+      await FirebaseFirestore.instance.collection('Centrisportivi').get();
+
+      // Cicla attraverso ciascun documento nella raccolta 'Centrisportivi'
+      for (QueryDocumentSnapshot centroSportivo in centriSportiviSnapshot.docs) {
+        // Ottieni l'id del centro sportivo corrente
+        String centroSportivoId = centroSportivo.id;
+
+        // Ottieni tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
+        QuerySnapshot prenotazioniSnapshot = await FirebaseFirestore.instance
+            .collection('Centrisportivi')
+            .doc(centroSportivoId)
+            .collection('Prenotazioni')
+            .where('data', isGreaterThanOrEqualTo: lastMonth, isLessThanOrEqualTo: endDateTime)
+            .get();
+
+        // Aggiungi il numero di prenotazioni nell'intervallo specificato
+        prenotazioniUltimoMese += prenotazioniSnapshot.docs.length;
+      }
+
+      return prenotazioniUltimoMese;
+    } catch (e) {
+      print('Errore durante il conteggio delle prenotazioni: $e');
+      return 0; // Ritorna 0 se si verifica un errore
+    }
+  }
+
 
 
 }

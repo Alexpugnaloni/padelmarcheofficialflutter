@@ -24,15 +24,21 @@ class _MyLoginPageState extends State<MyLoginPage> {
   String email = "";
   String password = "";
   List<Amministratore> _amministratori = [];
+  List<Superadmin> _superAdmin = [];
 
   @override
   void initState() {
     super.initState();
     _fetchAmministratori();
+    _fetchSuperAdmin();
   }
 
   Future<void> _fetchAmministratori() async {
     _amministratori = await GestioneFirebase().downloadAmministratori();
+  }
+
+  Future<void> _fetchSuperAdmin() async {
+    _superAdmin = await GestioneFirebase().downloadSuperadmin();
   }
 
   @override
@@ -130,15 +136,23 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
                             // Recupera la lista degli amministratori
                             await _fetchAmministratori();
+                            await _fetchSuperAdmin();
 
                             // Controllo se l'utente è un amministratore
                             final isAdmin = _amministratori.any((admin) =>
                             admin.email.toLowerCase() == email.toLowerCase());
 
+                            // Controllo se l'utente è un superadmin
+                            final isSuperAdmin = _superAdmin.any((superadmin) =>
+                            superadmin.email.toLowerCase() == email.toLowerCase());
+
+
                             if (newUser != null) {
                               if (isAdmin) {
                                 // Utente è un amministratore, naviga verso PaginaAmministratore
                                 Navigator.pushReplacementNamed(context, '/pagina_amministratore');
+                              }else if (isSuperAdmin) {
+                                Navigator.pushReplacementNamed(context, '/pagina_superadmin');
                               } else {
                                 // Utente normale, naviga verso HomePage
                                 Navigator.pushReplacementNamed(context, '/home');
