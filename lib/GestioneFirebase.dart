@@ -390,6 +390,19 @@ class GestioneFirebase {
     }
   }
 
+  Future<int> countAccounts() async {
+    try {
+      QuerySnapshot querySnapshot =
+      await FirebaseFirestore.instance.collection('Accounts').get();
+
+      int count = querySnapshot.size;
+      return count;
+    } catch (e) {
+      print('Errore durante il conteggio dei documenti: $e');
+      return -1; // Valore di errore, puoi gestire questo caso come preferisci
+    }
+  }
+
 
 
 }

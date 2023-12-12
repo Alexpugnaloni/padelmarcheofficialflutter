@@ -18,9 +18,10 @@ class PaginaSuperAdmin extends StatefulWidget {
 
 class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
   final _auth = FirebaseAuth.instance;
- // List<PrenotazioneAdmin> prenotazioniAmministratore = [];
+
+  // List<PrenotazioneAdmin> prenotazioniAmministratore = [];
   int _currentIndex = 0;
- // int iscritti = 0;
+  int iscritti = 0;
   int statGiornaliere = 0;
   int statSetimanali = 0;
   int statMensili = 0;
@@ -30,16 +31,19 @@ class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
   void initState() {
     super.initState();
     _fetchStatistiche();
-
   }
 
   Future<void> _fetchStatistiche() async {
-  //  iscritti
-      statGiornaliere = await PaginaSuperAdmin.gestioneFirebase.countPrenotazioniPerDataOdierna();
-      statSetimanali = await PaginaSuperAdmin.gestioneFirebase.countPrenotazioniUltimaSettimana();
-      statMensili = await PaginaSuperAdmin.gestioneFirebase.countPrenotazioniUltimoMese();
-      setState(() {});
+    iscritti = await PaginaSuperAdmin.gestioneFirebase.countAccounts();
+    statGiornaliere = await PaginaSuperAdmin.gestioneFirebase
+        .countPrenotazioniPerDataOdierna();
+    statSetimanali = await PaginaSuperAdmin.gestioneFirebase
+        .countPrenotazioniUltimaSettimana();
+    statMensili =
+        await PaginaSuperAdmin.gestioneFirebase.countPrenotazioniUltimoMese();
+    setState(() {});
   }
+
   void logout() async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(
@@ -50,24 +54,20 @@ class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
       ModalRoute.withName('/home'),
     );
   }
+
   void _onTabTapped(int index, BuildContext context) {
     setState(() {
       _currentIndex = index;
       print(_currentIndex);
-      if(_currentIndex == 0){
+      if (_currentIndex == 0) {
         // _lauchUserProfile();
-      }else if(_currentIndex == 1){
+      } else if (_currentIndex == 1) {
         //   _lauchPrenotazioni();
-      }
-      else if(_currentIndex == 2){
+      } else if (_currentIndex == 2) {
         logout();
       }
     });
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,73 +83,75 @@ class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 16.0),
-              Text(
-                'Statistiche',
-                style: TextStyle(
-                  fontSize: 25.0,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
+      body: Center(
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 16.0),
+                Text(
+                  'Statistiche',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              Image.asset(
-                'assets/campostatistiche.png', // Assumi che il file dell'immagine sia presente in 'assets'
-                width: 300.0,
-                height: 250.0,
-              ),
-              const SizedBox(height: 30.0),
-              Text(
-                'Numero di iscritti:',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontStyle: FontStyle.italic,
+                const SizedBox(height: 30.0),
+                Image.asset(
+                  'assets/campostatistiche.png',
+                  width: 300.0,
+                  height: 250.0,
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              Text(
-                'Entrate',
-                style: TextStyle(
-                  fontSize: 25.0,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 30.0),
+                Text(
+                  'Numero di iscritti: ${iscritti}',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              Text(
-                'Entrate Giornaliere Totali: ${statGiornaliere * 60}€',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontStyle: FontStyle.italic,
+                const SizedBox(height: 30.0),
+                Text(
+                  'Entrate',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              Text(
-                'Entrate Settimanali Totali: ${statSetimanali * 60}€',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontStyle: FontStyle.italic,
+                const SizedBox(height: 30.0),
+                Text(
+                  'Entrate Giornaliere Totali: ${statGiornaliere * 60}€',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30.0),
-              Text(
-                'Entrate Mensili Totali: ${statMensili * 60}€',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontStyle: FontStyle.italic,
+                const SizedBox(height: 30.0),
+                Text(
+                  'Entrate Settimanali Totali: ${statSetimanali * 60}€',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 30.0),
+                Text(
+                  'Entrate Mensili Totali: ${statMensili * 60}€',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-  }
+}
