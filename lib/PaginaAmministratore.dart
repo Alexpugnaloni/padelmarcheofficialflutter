@@ -65,6 +65,14 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Prenotazioni Amministratore'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              _onTabTapped(2, context);
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -133,26 +141,6 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          _onTabTapped(index, context);
-        },
-        items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Vuoto',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Vuoto',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.exit_to_app),
-            label: 'Logout',
-          ),
-        ],
       ),
     );
   }
