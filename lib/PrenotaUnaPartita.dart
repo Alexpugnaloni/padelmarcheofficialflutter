@@ -47,6 +47,37 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
         DateTime selected = selectedDate;
         selected = selected.add(Duration(hours: int.tryParse(parti[0])!));
 
+        DateTime currentTime = DateTime.now();
+        DateTime selectedTime = DateTime(
+          selected.year,
+          selected.month,
+          selected.day,
+          int.tryParse(parti[0])!,
+          int.tryParse(parti[1])!,
+          int.tryParse(parti[2])!,
+        );
+
+        if (selectedTime.isBefore(currentTime)) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Errore'),
+                content: Text('Non è possibile selezionare un orario precedente a quello attuale.'),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+          return;
+        }
+
         ///i parametri popolati precedentemente, li passa a cercaprenotazionifirebase
         final bool fasciaOccupata = await GestioneFirebase()
             .cercaPrenotazioniFirebase(
