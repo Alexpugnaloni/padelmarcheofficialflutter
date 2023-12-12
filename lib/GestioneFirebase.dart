@@ -147,7 +147,6 @@ class GestioneFirebase {
       DateTime dataPrenotazione = (doc['data'] as Timestamp).toDate();
       String idPrenotazione = doc.id;
 
-      // Aggiungi solo le prenotazioni con data futura rispetto alla data odierna
       if (dataPrenotazione.isAfter(dataOdierna) || dataPrenotazione.isAtSameMomentAs(dataOdierna)) {
         prenotazioniList.add(Prenotazione(idPrenotazione, utenteID, centroSportivo, dataPrenotazione));
       }
@@ -155,7 +154,7 @@ class GestioneFirebase {
 
     return prenotazioniList;
   }
-
+  ///funzione che effettua il download degli Amministratori da firebase
   Future<List<Amministratore>> downloadAmministratori() async {
     List<Amministratore> amministratoriList = [];
 
@@ -177,7 +176,8 @@ class GestioneFirebase {
 
     return amministratoriList;
   }
-
+  ///funzione che effettua il download delle prenotazioni effettuate dagli utenti in base all'amministratore loggato
+  ///nell'applicazione, passandogli l'email dell'amministratore loggato
   Future<List<PrenotazioneAdmin>> downloadPrenotazioniAmministratore(String userEmail) async {
     List<PrenotazioneAdmin> prenotazioniList = [];
 
@@ -187,9 +187,11 @@ class GestioneFirebase {
           .where('email', isEqualTo: userEmail)
           .get();
 
+      ///legge il campo idsede del documento dell'amnistratore
       if (amministratoriSnapshot.docs.isNotEmpty) {
         String sedeId = amministratoriSnapshot.docs[0]['idsede'];
 
+      ///entra nella raccolta Centrisportivi e cerca il documento che ha come id = idsede
         DocumentSnapshot sedeSnapshot = await FirebaseFirestore.instance
             .collection('Centrisportivi')
             .doc(sedeId)
@@ -198,6 +200,7 @@ class GestioneFirebase {
         if (sedeSnapshot.exists) {
           CollectionReference prenotazioniRef = sedeSnapshot.reference.collection('Prenotazioni');
 
+          ///definisco un datetime per considerare solo un certo range di prenotazioni
           DateTime now = DateTime.now();
           QuerySnapshot prenotazioniSnapshot = await prenotazioniRef
               .where('data', isGreaterThanOrEqualTo: now)
@@ -208,9 +211,10 @@ class GestioneFirebase {
               String userId = prenotazione['idutente'];
               DateTime data = prenotazione['data'].toDate();
               String prenotazioneId = prenotazione.id;
-              String centroSportivo = sedeSnapshot['sede']; // Associa il campo sede al campo centroSportivo
+              String centroSportivo = sedeSnapshot['sede'];
 
-              // Ottieni informazioni dall'account dell'utente
+              ///utilizzo userId nella raccolta di Accounts per ottenere alcune informazioni dell'utente
+              ///che ha effettuato la prenotazione
               DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
                   .collection('Accounts')
                   .doc(userId)
@@ -249,7 +253,7 @@ class GestioneFirebase {
     return prenotazioniList;
   }
 
-
+  ///funzione che effettua il download del SuperAdmin da FireBase
   Future<List<Superadmin>> downloadSuperadmin() async {
     List<Superadmin> superAdminList = [];
 
@@ -270,31 +274,29 @@ class GestioneFirebase {
 
     return superAdminList;
   }
-
+  ///funzione che ritorna un numero di prenotazioni generali per la data odierna su ogni centro sportivo
   Future<int> countPrenotazioniPerDataOdierna() async {
     try {
-      // Ottieni la data odierna
+
       DateTime now = DateTime.now();
 
-      // Ottieni tutti i documenti dalla raccolta 'Centrisportivi'
       QuerySnapshot centriSportiviSnapshot =
       await FirebaseFirestore.instance.collection('Centrisportivi').get();
 
       int prenotazioniPerDataOdierna = 0;
 
-      // Cicla attraverso ciascun documento nella raccolta 'Centrisportivi'
+
       for (QueryDocumentSnapshot centroSportivo in centriSportiviSnapshot.docs) {
-        // Ottieni l'id del centro sportivo corrente
         String centroSportivoId = centroSportivo.id;
 
-        // Ottieni tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
+        ///ottengo tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
         QuerySnapshot prenotazioniSnapshot = await FirebaseFirestore.instance
             .collection('Centrisportivi')
             .doc(centroSportivoId)
             .collection('Prenotazioni')
             .get();
 
-        // Conta il numero di prenotazioni per la data odierna
+        ///conta il numero di prenotazioni per la data odierna
         prenotazioniSnapshot.docs.forEach((prenotazione) {
           DateTime dataPrenotazione = prenotazione['data'].toDate();
           if (dataPrenotazione.year == now.year &&
@@ -308,31 +310,28 @@ class GestioneFirebase {
       return prenotazioniPerDataOdierna;
     } catch (e) {
       print('Errore durante il conteggio delle prenotazioni: $e');
-      return 0; // Ritorna 0 se si verifica un errore
+      return 0;
     }
   }
-
+  ///funzione che ritorna un numero di prenotazioni generali per l'ultima settimana su ogni centro sportivo
   Future<int> countPrenotazioniUltimaSettimana() async {
     try {
-      // Ottieni la data di oggi e la data esattamente una settimana fa
+
       DateTime today = DateTime.now();
       DateTime lastWeek = today.subtract(const Duration(days: 7));
 
-      // Inizializza la data di fine a quella di oggi a mezzanotte
+      ///inizializzo la data di fine a quella di oggi a mezzanotte
       DateTime endDateTime = DateTime(today.year, today.month, today.day, 23, 59, 59);
 
       int prenotazioniUltimaSettimana = 0;
 
-      // Ottieni tutti i documenti dalla raccolta 'Centrisportivi'
+
       QuerySnapshot centriSportiviSnapshot =
       await FirebaseFirestore.instance.collection('Centrisportivi').get();
 
-      // Cicla attraverso ciascun documento nella raccolta 'Centrisportivi'
       for (QueryDocumentSnapshot centroSportivo in centriSportiviSnapshot.docs) {
-        // Ottieni l'id del centro sportivo corrente
         String centroSportivoId = centroSportivo.id;
 
-        // Ottieni tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
         QuerySnapshot prenotazioniSnapshot = await FirebaseFirestore.instance
             .collection('Centrisportivi')
             .doc(centroSportivoId)
@@ -340,38 +339,32 @@ class GestioneFirebase {
             .where('data', isGreaterThanOrEqualTo: lastWeek, isLessThanOrEqualTo: endDateTime)
             .get();
 
-        // Aggiungi il numero di prenotazioni nell'intervallo specificato
         prenotazioniUltimaSettimana += prenotazioniSnapshot.docs.length;
       }
 
       return prenotazioniUltimaSettimana;
     } catch (e) {
       print('Errore durante il conteggio delle prenotazioni: $e');
-      return 0; // Ritorna 0 se si verifica un errore
+      return 0;
     }
   }
-
+  ///funzione che ritorna un numero di prenotazioni generali per l'ultimo mese su ogni centro sportivo
   Future<int> countPrenotazioniUltimoMese() async {
     try {
-      // Ottieni la data di oggi e la data esattamente un mese fa
+
       DateTime today = DateTime.now();
       DateTime lastMonth = today.subtract(const Duration(days: 30));
 
-      // Inizializza la data di fine a quella di oggi a mezzanotte
       DateTime endDateTime = DateTime(today.year, today.month, today.day, 23, 59, 59);
 
       int prenotazioniUltimoMese = 0;
 
-      // Ottieni tutti i documenti dalla raccolta 'Centrisportivi'
       QuerySnapshot centriSportiviSnapshot =
       await FirebaseFirestore.instance.collection('Centrisportivi').get();
 
-      // Cicla attraverso ciascun documento nella raccolta 'Centrisportivi'
       for (QueryDocumentSnapshot centroSportivo in centriSportiviSnapshot.docs) {
-        // Ottieni l'id del centro sportivo corrente
         String centroSportivoId = centroSportivo.id;
 
-        // Ottieni tutti i documenti dalla raccolta 'Prenotazioni' del centro sportivo corrente
         QuerySnapshot prenotazioniSnapshot = await FirebaseFirestore.instance
             .collection('Centrisportivi')
             .doc(centroSportivoId)
@@ -379,17 +372,16 @@ class GestioneFirebase {
             .where('data', isGreaterThanOrEqualTo: lastMonth, isLessThanOrEqualTo: endDateTime)
             .get();
 
-        // Aggiungi il numero di prenotazioni nell'intervallo specificato
         prenotazioniUltimoMese += prenotazioniSnapshot.docs.length;
       }
 
       return prenotazioniUltimoMese;
     } catch (e) {
       print('Errore durante il conteggio delle prenotazioni: $e');
-      return 0; // Ritorna 0 se si verifica un errore
+      return 0;
     }
   }
-
+  ///funzione che conta il numero di account registrati su FireBase
   Future<int> countAccounts() async {
     try {
       QuerySnapshot querySnapshot =
@@ -399,7 +391,7 @@ class GestioneFirebase {
       return count;
     } catch (e) {
       print('Errore durante il conteggio dei documenti: $e');
-      return -1; // Valore di errore, puoi gestire questo caso come preferisci
+      return -1;
     }
   }
 

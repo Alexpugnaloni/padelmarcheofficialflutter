@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'CentroSportivo.dart';
 import 'GestioneFirebase.dart';
 import 'dart:core';
 import 'Login.dart';
@@ -26,7 +25,8 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
     super.initState();
     _fetchPrenotazioni();
   }
-
+  ///funzione che va a prelevare ed ordinaree per data le prenotazioni effettuate dall'utente
+  ///per la specifica sede, considerando inoltre la userEmail dell'utente amministratore loggato
   Future<void> _fetchPrenotazioni() async {
     final userEmail = _auth.currentUser!.email.toString();
     prenotazioniAmministratore = await PaginaAmministratore.gestioneFirebase.downloadPrenotazioniAmministratore(userEmail);
@@ -39,7 +39,7 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
     Navigator.of(context).pushAndRemoveUntil(
       // the new route
       MaterialPageRoute(
-        builder: (BuildContext context) => const MyLoginPage(),
+        builder: (BuildContext context) => const PaginaLogin(),
       ),
       ModalRoute.withName('/home'),
     );
@@ -131,7 +131,6 @@ class _PaginaAmministratoreState extends State<PaginaAmministratore> {
                               fontSize: 16.0,
                             ),
                           ),
-                          // Aggiungi altri dettagli della prenotazione se necessario
                         ],
                       ),
                     ),

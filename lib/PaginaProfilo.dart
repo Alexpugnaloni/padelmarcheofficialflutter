@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 
 
 ///Classe che mostra a video le informazioni dell'account loggato
-class MyProfile{
+class Profilo{
   HashMap account;
-  MyProfile(this.account);
+  Profilo(this.account);
 }
 
 ///visualizzazione delle informazioni del profilo di un utente
-class ViewProfile extends StatelessWidget{
-  static const routeName = '/viewProfile';
+class VistaProfilo extends StatelessWidget{
+  static const routeName = '/vista_profilo';
 
-  const ViewProfile({super.key});
+  const VistaProfilo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as MyProfile;
+    final args = ModalRoute.of(context)!.settings.arguments as Profilo;
     print(args);
     return Scaffold(
       appBar: AppBar(

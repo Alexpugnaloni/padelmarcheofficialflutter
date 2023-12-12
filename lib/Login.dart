@@ -6,19 +6,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:padelmarcheofficialflutter/Amministratore.dart';
 
 ///Classe utile ad effetturare l'accesso sull'applicazione
-class MyLoginPage extends StatefulWidget {
+class PaginaLogin extends StatefulWidget {
   static const routeName = '/login';
 
-  const MyLoginPage({super.key});
+  const PaginaLogin({super.key});
 
   @override
-  _MyLoginPageState createState() => _MyLoginPageState();
+  _PaginaLoginState createState() => _PaginaLoginState();
 }
 
-class _MyLoginPageState extends State<MyLoginPage> {
+class _PaginaLoginState extends State<PaginaLogin> {
   final _auth = FirebaseAuth.instance;
-  //final TextEditingController _emailController = TextEditingController();
- // final TextEditingController _passwordController = TextEditingController();
   bool emailcorretta = true;
   bool nascondipassword = true;
   String email = "";
@@ -128,33 +126,30 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         onPressed: () async {
                           setState(() {});
                           try {
-                            // Effettua l'accesso su Firebase
+                            ///Effettua l'accesso su Firebase
                             final newUser = await _auth.signInWithEmailAndPassword(
                               email: email,
                               password: password,
                             );
 
-                            // Recupera la lista degli amministratori
                             await _fetchAmministratori();
                             await _fetchSuperAdmin();
 
-                            // Controllo se l'utente è un amministratore
+                            ///Controllo se l'utente è un amministratore
                             final isAdmin = _amministratori.any((admin) =>
                             admin.email.toLowerCase() == email.toLowerCase());
 
-                            // Controllo se l'utente è un superadmin
+                            ///Controllo se l'utente è un superadmin
                             final isSuperAdmin = _superAdmin.any((superadmin) =>
                             superadmin.email.toLowerCase() == email.toLowerCase());
 
 
                             if (newUser != null) {
                               if (isAdmin) {
-                                // Utente è un amministratore, naviga verso PaginaAmministratore
                                 Navigator.pushReplacementNamed(context, '/pagina_amministratore');
                               }else if (isSuperAdmin) {
                                 Navigator.pushReplacementNamed(context, '/pagina_superadmin');
                               } else {
-                                // Utente normale, naviga verso HomePage
                                 Navigator.pushReplacementNamed(context, '/home');
                               }
                             }

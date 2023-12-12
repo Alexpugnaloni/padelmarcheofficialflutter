@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'CentroSportivo.dart';
 import 'GestioneFirebase.dart';
 import 'dart:core';
 import 'Login.dart';
-import 'Prenotazione.dart';
+
 
 class PaginaSuperAdmin extends StatefulWidget {
   static const routeName = '/pagina_superadmin';
@@ -19,7 +18,6 @@ class PaginaSuperAdmin extends StatefulWidget {
 class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
   final _auth = FirebaseAuth.instance;
 
-  // List<PrenotazioneAdmin> prenotazioniAmministratore = [];
   int _currentIndex = 0;
   int iscritti = 0;
   int statGiornaliere = 0;
@@ -32,7 +30,7 @@ class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
     super.initState();
     _fetchStatistiche();
   }
-
+  ///funzione che inizializza le statistiche
   Future<void> _fetchStatistiche() async {
     iscritti = await PaginaSuperAdmin.gestioneFirebase.countAccounts();
     statGiornaliere = await PaginaSuperAdmin.gestioneFirebase
@@ -49,7 +47,7 @@ class _PaginaSuperAdminState extends State<PaginaSuperAdmin> {
     Navigator.of(context).pushAndRemoveUntil(
       // the new route
       MaterialPageRoute(
-        builder: (BuildContext context) => const MyLoginPage(),
+        builder: (BuildContext context) => const PaginaLogin(),
       ),
       ModalRoute.withName('/home'),
     );

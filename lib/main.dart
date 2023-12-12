@@ -22,7 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set default home.
-  Widget defaultHome = const MyLoginPage();
+  Widget defaultHome = const PaginaLogin();
 
   /// se non c'è un account in memoria si va alla pagina di login
   if (gestioneFirebase.checkState()) {
@@ -36,8 +36,8 @@ void main() async {
     routes: <String, WidgetBuilder>{
 
       '/home': (BuildContext context) => const HomePage(),
-      MyLoginPage.routeName: (BuildContext context) => const MyLoginPage(),
-      ViewProfile.routeName: (context) => const ViewProfile(),
+      PaginaLogin.routeName: (BuildContext context) => const PaginaLogin(),
+      VistaProfilo.routeName: (context) => const VistaProfilo(),
       PrenotaUnaPartita.routeName: (context) => const PrenotaUnaPartita(),
       Prenotazioni.routeName: (context) => const Prenotazioni(),
       PaginaAmministratore.routeName: (context) => const PaginaAmministratore(),
@@ -82,8 +82,8 @@ class _HomePage extends State<HomePage> {
   void _lauchUserProfile() {
     Navigator.pushNamed(
       context,
-      ViewProfile.routeName,
-      arguments: MyProfile(account),
+      VistaProfilo.routeName,
+      arguments: Profilo(account),
     );
   }
   ///funzione che viene richiamata quando devo prenotare una partita
@@ -104,7 +104,7 @@ class _HomePage extends State<HomePage> {
     Navigator.of(context).pushAndRemoveUntil(
       // the new route
       MaterialPageRoute(
-        builder: (BuildContext context) => const MyLoginPage(),
+        builder: (BuildContext context) => const PaginaLogin(),
       ),
       ModalRoute.withName('/home'),
     );
