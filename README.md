@@ -38,3 +38,12 @@ SUPERAMMINISTRATORE
 - Email : superadmin@padelmarche.it
 - Password : Superadmin
 
+ULTERIORI UTENTI
+- Email: eliavaccarini@gmail.com
+- Password: Eliavaccarini
+
+- Email: albertorossini@gmail.com
+- Password: Albertorossini
+
+- Email: germanovitali@gmail.com
+- Password: Germanovitali
