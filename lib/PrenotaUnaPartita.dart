@@ -178,8 +178,8 @@ class _PrenotaUnaPartitaState extends State<PrenotaUnaPartita> {
                 final DateTime? pickedDate = await showDatePicker(
                   context: context,
                   initialDate: selectedDate,
-                  firstDate: DateTime(2023),
-                  lastDate: DateTime(2024),
+                  firstDate: DateTime(2024),
+                  lastDate: DateTime(2025),
                 );
                 if (pickedDate != null && pickedDate != selectedDate) {
                   setState(() {
